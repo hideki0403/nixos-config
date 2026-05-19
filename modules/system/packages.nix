@@ -12,6 +12,7 @@
     wezterm
     tailscale
     spotify
+    seahorse
 
     # Development
     nodejs-slim
