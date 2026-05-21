@@ -5,5 +5,6 @@
     ./noctalia
     ./wezterm
     ./git
+    ./gnome-keyrings
   ];
 }

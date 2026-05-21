@@ -7,6 +7,7 @@
 
   networking.hostName = "vm";
   system.stateVersion = "25.11";
+  boot.loader.grub.device = "/dev/sda";
 
   users.users.${customConfig.username}.extraGroups = [ "vboxsf" ];
 }

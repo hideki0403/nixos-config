@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   home.pointerCursor = {
     enable = true;
@@ -30,17 +30,27 @@
       };
 
       input = {
-        focus-follows-mouse.enable = true;
+        # focus-follows-mouse.enable = true;
         warp-mouse-to-focus.enable = true;
         touchpad = {
           tap = true;
           scroll-method = "two-finger";
+          accel-profile = "adaptive";
+          accel-speed = 0;
+          scroll-factor = 0.2;
         };
       };
 
-      # TODO: Display output settings
-      # outputs = [
-      # ];
+      outputs = {
+        "eDP-1" = {
+          scale = 1.25;
+        };
+
+        # "HDMI-A-1" = {
+          # scale = 1;
+          # mode = "1920x1080@60";
+        # };
+      };
 
       workspaces = {
         # TODO

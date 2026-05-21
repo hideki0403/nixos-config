@@ -9,8 +9,8 @@
     # Software
     vscode.fhs
     google-chrome
+    microsoft-edge
     wezterm
-    tailscale
     spotify
     seahorse
 
@@ -29,8 +29,10 @@
     zip
     unzip
     _7zip-zstd
+    nautilus
+    keyd
 
     # IME
-    ibus-engines.mozc-ut
+    fcitx5-mellow-themes
   ];
 }

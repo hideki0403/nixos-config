@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let
-  genjyuu-gothic = pkgs.callPackage ../../pkgs/genjyuu-gothic { };
+  genjyuu-gothic = pkgs.callPackage ../../../pkgs/genjyuu-gothic { };
 in
 {
   fonts = {

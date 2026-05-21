@@ -1,6 +1,6 @@
 { ... }:
 {
   imports = [
-    ./ja-ime.nix
+    ./settings.nix
   ];
 }

@@ -8,16 +8,16 @@
         barType = "framed";
         position = "top";
         monitors = [ ];
-        density = "comfortable";
+        density = "spacious";
         showOutline = false;
         showCapsule = false;
         capsuleOpacity = 1;
         capsuleColorKey = "none";
-        widgetSpacing = 8;
+        widgetSpacing = 4;
         contentPadding = 2;
-        fontScale = 1;
+        fontScale = 1.05;
         enableExclusionZoneInset = true;
-        backgroundOpacity = 0.93;
+        backgroundOpacity = 0.9;
         useSeparateOpacity = false;
         marginVertical = 4;
         marginHorizontal = 4;
@@ -43,6 +43,39 @@
               usePrimaryColor = false;
             }
             {
+              deviceNativePath = "__default__";
+              displayMode = "graphic";
+              hideIfIdle = false;
+              hideIfNotDetected = true;
+              id = "Battery";
+              showNoctaliaPerformance = true;
+              showPowerProfiles = true;
+            }
+            {
+              displayMode = "onhover";
+              iconColor = "none";
+              id = "Network";
+              textColor = "none";
+            }
+            {
+              compactMode = true;
+              defaultPeerAction = "copy-ip";
+              hideDisconnected = false;
+              hideMullvadExitNodes = true;
+              loginServer = "";
+              pingCount = 5;
+              refreshInterval = 60000;
+              showIpAddress = true;
+              showPeerCount = true;
+              showSearchBar = false;
+              sshUsername = "";
+              taildropDownloadDir = "/home/${customConfig.username}/Downloads";
+              taildropEnabled = true;
+              taildropReceiveMode = "operator";
+              terminalCommand = "wezterm";
+              id = "plugin:tailscale";
+            }
+            {
               compactMode = true;
               diskPath = "/";
               iconColor = "none";
@@ -58,7 +91,7 @@
               showLoadAverage = false;
               showMemoryAsPercent = false;
               showMemoryUsage = true;
-              showNetworkStats = true;
+              showNetworkStats = false;
               showSwapUsage = false;
               textColor = "none";
               useMonospaceFont = true;
@@ -122,7 +155,7 @@
       };
       general = {
         avatarImage = customConfig.avatarImagePath;
-        dimmerOpacity = 0.2;
+        dimmerOpacity = 0.4;
         showScreenCorners = false;
         forceBlackScreenCorners = false;
         scaleRatio = 1;
@@ -180,7 +213,7 @@
         tooltipsEnabled = true;
         scrollbarAlwaysVisible = true;
         boxBorderEnabled = false;
-        panelBackgroundOpacity = 0.93;
+        panelBackgroundOpacity = 0.9;
         translucentWidgets = true;
         panelsAttachedToBar = true;
         settingsPanelMode = "attached";
@@ -189,7 +222,7 @@
       location = {
         name = "Tokyo, JP";
         weatherEnabled = true;
-        weatherShowEffects = true;
+        weatherShowEffects = false;
         weatherTaliaMascotAlways = false;
         useFahrenheit = false;
         use12hourFormat = false;
@@ -400,7 +433,7 @@
         networkPanelView = "wifi";
         wifiDetailsViewMode = "grid";
         bluetoothDetailsViewMode = "grid";
-        bluetoothHideUnnamedDevices = false;
+        bluetoothHideUnnamedDevices = true;
         disableDiscoverability = false;
         bluetoothAutoConnect = true;
       };
@@ -478,7 +511,7 @@
         monitors = [ ];
         location = "top_right";
         overlayLayer = true;
-        backgroundOpacity = 1;
+        backgroundOpacity = 0.9;
         respectExpireTimeout = false;
         lowUrgencyDuration = 3;
         normalUrgencyDuration = 8;
@@ -507,7 +540,7 @@
         location = "top_right";
         autoHideMs = 2000;
         overlayLayer = true;
-        backgroundOpacity = 1;
+        backgroundOpacity = 0.9;
         enabledTypes = [
           0
           1
@@ -545,7 +578,16 @@
         syncGsettings = true;
       };
       templates = {
-        activeTemplates = [ ];
+        activeTemplates = [
+          {
+            enabled = true;
+            id = "wezterm";
+          }
+          {
+            enabled = true;
+            id = "niri";
+          }
+        ];
         enableUserTheming = false;
       };
       nightLight = {
