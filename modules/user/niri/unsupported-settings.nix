@@ -14,9 +14,17 @@ lib.mkIf (config.programs.niri.finalConfig != null) {
         include optional=true "noctalia.kdl"
 
         window-rule {
+          geometry-corner-radius 16
+
+          clip-to-geometry true
+
           background-effect {
             blur true
             xray false
+          }
+
+          focus-ring {
+            width 2
           }
         }
 
@@ -24,7 +32,13 @@ lib.mkIf (config.programs.niri.finalConfig != null) {
           match namespace="^noctalia-(background|launcher-overlay|dock)-.*$"
           background-effect {
             xray false
+            blur true
           }
+        }
+
+        layer-rule {
+          match namespace="^noctalia-(wallpaper|overview).*$"
+          place-within-backdrop true
         }
 
         blur {

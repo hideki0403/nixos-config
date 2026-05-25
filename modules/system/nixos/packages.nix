@@ -21,6 +21,8 @@
 
     # CLI
     wget
+    fastfetch
+    jq
 
     # Tools
     nixd
@@ -31,6 +33,7 @@
     _7zip-zstd
     nautilus
     keyd
+    sbctl
 
     # IME
     fcitx5-mellow-themes

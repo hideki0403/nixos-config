@@ -4,5 +4,6 @@
     ./nixos
     ./tailscale
     ./plymouth
+    ./docker
   ];
 }

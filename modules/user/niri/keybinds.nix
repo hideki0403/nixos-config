@@ -78,9 +78,10 @@ in
     "super+Shift+Down".action = move-column-to-workspace-down;
     "super+Shift+Up".action = move-column-to-workspace-up;
 
-    # "super+1".action = focus-workspace "main";
-    # "super+2".action = focus-workspace "browser";
-    # "super+3".action = focus-workspace "discord";
-    # "super+4".action = focus-workspace "music";
+    "super+Ctrl+F".action = expand-column-to-available-width;
+    "super+Minus".action = set-column-width "-5%";
+    "super+Equal".action = set-column-width "+5%";
+    "super+Shift+Minus".action = set-window-height "-10%";
+    "super+Shift+Equal".action = set-window-height "+10%";
   };
 }
