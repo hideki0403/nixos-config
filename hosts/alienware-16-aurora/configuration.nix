@@ -7,6 +7,6 @@
     ../../modules/system-optional/secure-boot
   ];
 
-  networking.hostName = "laptop";
+  networking.hostName = "alienware-16-aurora";
   system.stateVersion = "25.11";
 }

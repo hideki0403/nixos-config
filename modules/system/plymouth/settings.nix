@@ -12,6 +12,8 @@
       ];
     };
 
+    loader.systemd-boot.consoleMode = "max";
+
     # Enable "Silent boot"
     consoleLogLevel = 3;
     initrd.verbose = false;

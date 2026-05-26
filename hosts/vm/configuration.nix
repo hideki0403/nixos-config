@@ -1,4 +1,4 @@
-{ customConfig, ... }:
+{ customConfig, lib, ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -7,7 +7,7 @@
 
   networking.hostName = "vm";
   system.stateVersion = "25.11";
-  boot.loader.grub.device = "/dev/sda";
+  boot.loader.grub.device = lib.mkForce "/dev/sda";
 
   users.users.${customConfig.username}.extraGroups = [ "vboxsf" ];
 }

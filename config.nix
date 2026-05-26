@@ -1,6 +1,6 @@
 {
   username = "yukineko";
-  avatarImagePath = "/home/yukineko/.face";
+  avatarImagePath = "~/Pictures/Profile/profile.png";
 
   # git = {
   #   name = "anonymous";

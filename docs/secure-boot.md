@@ -80,5 +80,16 @@ $ sudo sbctl sign -s /boot/EFI/refind/refind_x64.efi
 ✓ Signed /boot/EFI/refind/refind_x64.efi
 ```
 
-3. 完成
+3. 設定の変更  
+
+デフォルトのままだと世代数が多くなってきたときにrEFIndが死ぬ問題があるため、以下の設定を追記しておく
+```bash
+$ sudo nano /boot/EFI/refind/refind.conf
+```
+
+```conf
+dont_scan_dirs EFI/Linux,EFI\Linux,Linux
+```
+
+4. 完成
 あとは自分好みにlet'sカスタマイズ！

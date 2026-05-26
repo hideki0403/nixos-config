@@ -39,8 +39,6 @@
               id = "Clock";
               tooltipFormat = "yyyy-MM-dd (ddd)";
               useCustomFont = false;
-              useMonospacedFont = true;
-              usePrimaryColor = false;
             }
             {
               deviceNativePath = "__default__";
@@ -58,21 +56,23 @@
               textColor = "none";
             }
             {
-              compactMode = true;
-              defaultPeerAction = "copy-ip";
-              hideDisconnected = false;
-              hideMullvadExitNodes = true;
-              loginServer = "";
-              pingCount = 5;
-              refreshInterval = 60000;
-              showIpAddress = true;
-              showPeerCount = true;
-              showSearchBar = false;
-              sshUsername = "";
-              taildropDownloadDir = "/home/${customConfig.username}/Downloads";
-              taildropEnabled = true;
-              taildropReceiveMode = "operator";
-              terminalCommand = "wezterm";
+              defaultSettings = {
+                compactMode = false;
+                defaultPeerAction = "copy-ip";
+                hideDisconnected = false;
+                hideMullvadExitNodes = true;
+                loginServer = "";
+                pingCount = 5;
+                refreshInterval = 5000;
+                showIpAddress = true;
+                showPeerCount = true;
+                showSearchBar = false;
+                sshUsername = "";
+                taildropDownloadDir = "~/Downloads";
+                taildropEnabled = true;
+                taildropReceiveMode = "operator";
+                terminalCommand = "";
+              };
               id = "plugin:tailscale";
             }
             {
@@ -98,7 +98,20 @@
               usePadding = false;
             }
             {
+              compactMode = false;
+              hideMode = "hidden";
+              hideWhenIdle = false;
               id = "MediaMini";
+              maxWidth = 145;
+              panelShowAlbumArt = true;
+              scrollingMode = "hover";
+              showAlbumArt = true;
+              showArtistFirst = true;
+              showProgressRing = true;
+              showVisualizer = false;
+              textColor = "none";
+              useFixedWidth = false;
+              visualizerType = "linear";
             }
           ];
           center = [
@@ -116,24 +129,64 @@
           ];
           right = [
             {
+              characterCount = 2;
+              colorizeIcons = false;
+              emptyColor = "secondary";
+              enableScrollWheel = true;
+              focusedColor = "primary";
+              followFocusedScreen = false;
+              fontWeight = "bold";
+              groupedBorderOpacity = 1;
               hideUnoccupied = false;
+              iconScale = 0.8;
               id = "Workspace";
               labelMode = "index";
-            }
-            {
-              id = "Launcher";
-            }
-            {
-              id = "Tray";
-            }
-            {
-              id = "NotificationHistory";
-            }
-            {
-              id = "Volume";
+              occupiedColor = "secondary";
+              pillSize = 0.6;
+              showApplications = false;
+              showApplicationsHover = false;
+              showBadge = true;
+              showLabelsOnlyWhenOccupied = true;
+              unfocusedIconsOpacity = 1;
             }
             {
               colorizeSystemIcon = "none";
+              colorizeSystemText = "none";
+              customIconPath = "";
+              enableColorization = false;
+              icon = "rocket";
+              iconColor = "none";
+              id = "Launcher";
+              useDistroLogo = false;
+            }
+            {
+              blacklist = [ ];
+              chevronColor = "none";
+              colorizeIcons = false;
+              drawerEnabled = true;
+              hidePassive = false;
+              id = "Tray";
+              pinned = [ ];
+            }
+            {
+              hideWhenZero = false;
+              hideWhenZeroUnread = false;
+              iconColor = "none";
+              id = "NotificationHistory";
+              showUnreadBadge = true;
+              unreadBadgeColor = "primary";
+            }
+            {
+              displayMode = "onhover";
+              iconColor = "none";
+              id = "Volume";
+              middleClickCommand = "pwvucontrol || pavucontrol";
+              textColor = "none";
+            }
+            {
+              colorizeDistroLogo = false;
+              colorizeSystemIcon = "none";
+              colorizeSystemText = "none";
               customIconPath = "";
               enableColorization = true;
               icon = "noctalia";
@@ -165,7 +218,7 @@
         screenRadiusRatio = 1;
         animationSpeed = 1.2;
         animationDisabled = false;
-        compactLockScreen = false;
+        compactLockScreen = true;
         lockScreenAnimations = false;
         lockOnSuspend = true;
         showSessionButtonsOnLockScreen = true;
@@ -185,11 +238,11 @@
         autoStartAuth = false;
         allowPasswordWithFprintd = false;
         clockStyle = "custom";
-        clockFormat = "hh\\nmm";
+        clockFormat = "HH:mm:ss";
         passwordChars = false;
         lockScreenMonitors = [ ];
-        lockScreenBlur = 0;
-        lockScreenTint = 0;
+        lockScreenBlur = 0.9;
+        lockScreenTint = 0.5;
         keybinds = {
           keyUp = [ "Up" ];
           keyDown = [ "Down" ];
@@ -270,12 +323,8 @@
         randomIntervalSec = 300;
         transitionDuration = 1500;
         transitionType = [
-          "fade"
-          "disc"
-          "stripes"
           "wipe"
-          "pixelate"
-          "honeycomb"
+          "fade"
         ];
         skipStartupTransition = false;
         transitionEdgeSmoothness = 0.05;
@@ -310,7 +359,7 @@
         position = "center";
         pinnedApps = [ ];
         sortByMostUsed = true;
-        terminalCommand = "alacritty -e";
+        terminalCommand = "wezterm";
         customLaunchPrefixEnabled = false;
         customLaunchPrefix = "";
         viewMode = "list";
@@ -332,12 +381,12 @@
           left = [
             { id = "Network"; }
             { id = "Bluetooth"; }
-            { id = "WallpaperSelector"; }
-            { id = "NoctaliaPerformance"; }
+            { id = "AirplaneMode"; }
+            { id = "DarkMode"; }
           ];
           right = [
             { id = "Notifications"; }
-            { id = "PowerProfile"; }
+            { id = "WallpaperSelector"; }
             { id = "KeepAwake"; }
             { id = "NightLight"; }
           ];
@@ -364,7 +413,7 @@
             id = "weather-card";
           }
           {
-            enabled = true;
+            enabled = false;
             id = "media-sysmon-card";
           }
         ];
@@ -439,50 +488,50 @@
       };
       sessionMenu = {
         enableCountdown = true;
-        countdownDuration = 10000;
+        countdownDuration = 5000;
         position = "center";
         showHeader = true;
         showKeybinds = true;
-        largeButtonsStyle = true;
+        largeButtonsStyle = false;
         largeButtonsLayout = "single-row";
         powerOptions = [
           {
-            action = "lock";
+            action = "shutdown";
             command = "";
             countdownEnabled = true;
             enabled = true;
             keybind = "1";
           }
           {
-            action = "suspend";
+            action = "reboot";
             command = "";
             countdownEnabled = true;
             enabled = true;
             keybind = "2";
           }
           {
-            action = "hibernate";
+            action = "logout";
             command = "";
             countdownEnabled = true;
             enabled = true;
             keybind = "3";
           }
           {
-            action = "reboot";
+            action = "lock";
             command = "";
             countdownEnabled = true;
             enabled = true;
             keybind = "4";
           }
           {
-            action = "logout";
+            action = "suspend";
             command = "";
             countdownEnabled = true;
             enabled = true;
             keybind = "5";
           }
           {
-            action = "shutdown";
+            action = "hibernate";
             command = "";
             countdownEnabled = true;
             enabled = true;

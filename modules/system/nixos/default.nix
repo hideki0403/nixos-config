@@ -10,5 +10,6 @@
     ./xdg.nix
     ./keyboard-remap.nix
     ./ime.nix
+    ./shell-aliases.nix
   ];
 }
