@@ -20,6 +20,7 @@
 
       layout = {
         background-color = "transparent";
+        gaps = 16;
         shadow = {
           enable = true;
           offset = {

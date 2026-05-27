@@ -2,7 +2,8 @@
 {
   imports = [
     ./niri
-    ./noctalia
+    # ./noctalia
+    ./dank-material-shell
     ./wezterm
     ./git
     ./gnome-keyrings

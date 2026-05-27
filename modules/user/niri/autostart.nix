@@ -9,6 +9,5 @@
     #   ];
     # }
     # { command = [ "xwayland-satellite" ]; }
-    { command = [ "noctalia-shell" ]; }
   ];
 }
