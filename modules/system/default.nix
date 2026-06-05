@@ -5,5 +5,6 @@
     ./tailscale
     ./plymouth
     ./docker
+    # ./dms-greeter
   ];
 }

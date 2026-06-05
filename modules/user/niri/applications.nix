@@ -1,6 +1,6 @@
 { ... }: {
   browser = "google-chrome";
-  terminal = "wezterm";
+  terminal = "ghostty";
   fileManager = "nautilus";
 
   # screenshotArea = "${pkgs.bash}/bin/bash -c '${pkgs.grim}/bin/grim -g \"\\\$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.wl-clipboard}/bin/wl-copy'";

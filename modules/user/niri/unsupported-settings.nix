@@ -30,6 +30,12 @@ lib.mkIf (config.programs.niri.finalConfig != null) {
           }
         }
 
+        layer-rule {
+          background-effect {
+            xray false
+          }
+        }
+
         blur {
           passes 2        // more passes = stronger blur (default: 3)
           offset 3.0      // sample distance per pass (default: 3.0)

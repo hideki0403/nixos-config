@@ -1,0 +1,45 @@
+#:schema https://starship.rs/config-schema.json
+
+format = """\
+[╭╴ ](dimmed)\
+$username\
+[: ](dimmed)\
+$directory\
+$fill\
+$cmd_duration\
+$time
+[╰─ ](dimmed)\
+$character\
+"""
+
+add_newline = true
+
+[username]
+disabled = false
+format = '[$user](fg:$style)'
+style_user = ''
+style_root = 'red'
+show_always = true
+
+[character]
+success_symbol = "[\\$](dimmed)"
+error_symbol = "[\\$](fg:red)"
+
+[directory]
+format = "[$path](cyan bold)[$read_only]($read_only_style) "
+read_only_style = "fg:red"
+truncate_to_repo = false
+
+[time]
+disabled = false
+format = "[ $time]($style)"
+time_format = "%H:%M:%S"
+style = "dimmed"
+
+[cmd_duration]
+format = "[ $duration]($style) "
+style = "fg:yellow"
+min_time = 10000
+
+[fill]
+symbol = " "

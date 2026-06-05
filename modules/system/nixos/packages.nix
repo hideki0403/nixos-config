@@ -11,6 +11,7 @@
     google-chrome
     microsoft-edge
     wezterm
+    ghostty
     spotify
     seahorse
 
@@ -20,6 +21,8 @@
     corepack
 
     # CLI
+    neovim
+    bind
     wget
     fastfetch
     jq
@@ -34,6 +37,7 @@
     nautilus
     keyd
     sbctl
+    fnm
 
     # IME
     fcitx5-mellow-themes

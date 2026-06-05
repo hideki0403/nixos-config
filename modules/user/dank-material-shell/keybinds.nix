@@ -27,7 +27,7 @@ in
     "super+Escape".action.spawn = dms "powermenu toggle";
 
     # Others
-    "super+Shift+C".action.spawn = dms "color pick -a";
-    "super+Shift+S".action.spawn = dms "screenshot";
+    "super+Shift+C".action.spawn = ["dms" "color" "pick" "-a"];
+    "super+Shift+S".action.spawn = ["dms" "screenshot"];
   };
 }
