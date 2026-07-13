@@ -2,6 +2,7 @@
 {
   imports = [
     ../../modules/user
+    ../../modules/user-optional/additional-packages
   ];
 
   home.username = customConfig.username;
