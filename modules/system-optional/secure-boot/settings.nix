@@ -7,7 +7,6 @@
   };
 
   # Enable lanzaboote
-  boot.bootspec.enable = true;
   boot.lanzaboote = {
     enable = true;
     pkiBundle = "/var/lib/sbctl";
