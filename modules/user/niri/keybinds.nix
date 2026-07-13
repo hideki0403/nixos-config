@@ -16,14 +16,12 @@ in
     "super+Return".action = spawn apps.terminal;
     "super+E".action = spawn apps.fileManager;
 
-    # Tested with ghostty and kitty
-    # "super+m".action = spawn apps.terminal [
-    #   "--title=spotify_player"
-    #   "-e"
-    #   "spotify_player"
-    # ];
+    # "super+F".action = maximize-window-to-edges;
+    # "super+Shift+F".action = expand-column-to-available-width;
+    "super+F".action = expand-column-to-available-width;
+    "super+Shift+F".action = maximize-window-to-edges;
+    "super+Ctrl+F".action = fullscreen-window;
 
-    "super+f".action = fullscreen-window;
     "super+t".action = toggle-window-floating;
 
     "Print".action.screenshot-screen = {
@@ -56,7 +54,6 @@ in
     "super+Shift+Down".action = move-column-to-workspace-down;
     "super+Shift+Up".action = move-column-to-workspace-up;
 
-    "super+Ctrl+F".action = expand-column-to-available-width;
     "super+Minus".action = set-column-width "-5%";
     "super+Equal".action = set-column-width "+5%";
     "super+Shift+Minus".action = set-window-height "-10%";
