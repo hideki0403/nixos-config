@@ -8,5 +8,6 @@
     ./shell
     ./git
     ./gnome-keyrings
+    ./neovim
   ];
 }
