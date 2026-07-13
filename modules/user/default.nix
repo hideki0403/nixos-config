@@ -2,8 +2,8 @@
 {
   imports = [
     ./niri
-    # ./noctalia
-    ./dank-material-shell
+    ./noctalia
+    # ./dank-material-shell
     ./wezterm
     ./shell
     ./git
