@@ -17,13 +17,13 @@ add_newline = true
 [username]
 disabled = false
 format = '[$user](fg:$style)'
-style_user = ''
+style_user = 'green'
 style_root = 'red'
 show_always = true
 
 [character]
 success_symbol = "[\\$](dimmed)"
-error_symbol = "[\\$](fg:red)"
+error_symbol = "[\\$](red)"
 
 [directory]
 format = "[$path](cyan bold)[$read_only]($read_only_style) "
