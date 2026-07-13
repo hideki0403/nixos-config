@@ -1,0 +1,204 @@
+[backdrop]
+enabled = true
+
+[bar]
+order = [ "widgets" ]
+
+    [bar.widgets]
+    capsule = true
+    capsule_opacity = 0.0
+    capsule_padding = 3.0
+    center = [ "active_window" ]
+    end = [ "workspaces", "spacer_workspace", "cpu", "ram", "spacer_monitor", "tray", "notifications", "notes" ]
+    start = [ "launcher", "clock", "battery", "network", "bluetooth", "output_volume", "privacy", "spacer_media", "media" ]
+
+[battery]
+warning_threshold = 15
+
+[calendar]
+enabled = true
+
+[config]
+
+[control_center]
+sidebar = "full"
+sidebar_section = "none"
+width = 910
+
+    [[control_center.shortcuts]]
+    type = "wifi"
+
+    [[control_center.shortcuts]]
+    type = "bluetooth"
+
+    [[control_center.shortcuts]]
+    type = "caffeine"
+
+    [[control_center.shortcuts]]
+    type = "power_profile"
+
+    [[control_center.shortcuts]]
+    type = "notification"
+
+    [[control_center.shortcuts]]
+    type = "nightlight"
+
+[desktop_widgets]
+schema_version = 2
+widget_order = []
+
+    [desktop_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [desktop_widgets.widget]
+
+[dock]
+auto_hide = true
+reserve_space = false
+
+[location]
+auto_locate = true
+
+[lockscreen_widgets]
+enabled = false
+schema_version = 2
+widget_order = [ "lockscreen-login-box@eDP-1" ]
+
+    [lockscreen_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
+    box_height = 70.0
+    box_width = 400.0
+    cx = 1024.0
+    cy = 1161.0
+    output = "eDP-1"
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        input_opacity = 1.0
+        input_radius = 6.0
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_password_hint = true
+
+[plugins]
+enabled = [ "noctalia/screen_recorder", "noctalia/notes", "noctalia/translator", "noctalia/wallhaven" ]
+
+[shell]
+avatar_path = "/var/lib/AccountsService/icons/yukineko"
+date_format = "%x %A"
+screen_time_enabled = true
+telemetry_enabled = true
+
+    [shell.launcher]
+    categories = false
+    compact = true
+
+    [shell.panel]
+    borders = false
+    open_near_click_control_center = true
+    transparency_mode = "glass"
+
+    [shell.screen_corners]
+    enabled = true
+    size = 24
+
+    [shell.screenshot]
+    confirm_region = true
+    directory = "~/Pictures/Screenshots"
+
+    [shell.shadow]
+    direction = "center"
+
+[templates]
+
+[theme]
+builtin = "Noctalia"
+community_palette = "One Dark Two"
+mode = "dark"
+source = "wallpaper"
+wallpaper_scheme = "soft"
+
+    [theme.templates]
+    builtin_ids = [ "niri", "qt" ]
+
+[wallpaper]
+transition = [ "fade" ]
+
+    [wallpaper.default]
+    path = "/home/yukineko/Pictures/Wallpapers/VRChat_2026-04-08_00-46-19.249_7680x4320.png"
+
+    [wallpaper.last]
+    path = "/home/yukineko/Pictures/Wallpapers/VRChat_2026-04-08_00-46-19.249_7680x4320.png"
+
+    [wallpaper.monitors.eDP-1]
+    path = "/home/yukineko/Pictures/Wallpapers/VRChat_2026-04-08_00-46-19.249_7680x4320.png"
+
+[weather]
+effects = false
+
+[widget.active_window]
+display = "text_only"
+font_weight = 700
+max_length = 400
+
+[widget.clock]
+font_weight = 700
+format = "{:%H:%M:%S}"
+tooltip_format = "%x %A"
+
+[widget.control-center]
+custom_image = "/nix/store/b5q8iihzrr35f1ynllz1wr5brvvpf885-noctalia-5.0.0/share/noctalia/assets/images/distros/nixos.svg"
+custom_image_colorize = true
+
+[widget.cpu]
+display = "text"
+
+[widget.launcher]
+custom_image = "/nix/store/b5q8iihzrr35f1ynllz1wr5brvvpf885-noctalia-5.0.0/share/noctalia/assets/images/distros/nixos.svg"
+custom_image_colorize = true
+
+[widget.media]
+hide_artist = true
+hide_when_no_media = true
+title_scroll = "on_hover"
+
+[widget.network]
+show_label = false
+
+[widget.notes]
+type = "noctalia/notes:notes"
+
+[widget.privacy]
+hide_inactive = true
+
+[widget.ram]
+display = "text"
+
+[widget.spacer_media]
+length = 10
+type = "spacer"
+
+[widget.spacer_monitor]
+length = 10
+type = "spacer"
+
+[widget.spacer_workspace]
+length = 10
+type = "spacer"
+
+[widget.sysmon]
+display = "text"
+
+[widget.wallhaven]
+type = "noctalia/wallhaven:wallhaven"

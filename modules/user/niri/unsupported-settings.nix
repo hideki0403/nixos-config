@@ -1,4 +1,10 @@
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 lib.mkIf (config.programs.niri.finalConfig != null) {
   # Niriがまだサポートしていない設定を直接書き込む
   # https://github.com/sodiboo/niri-flake/issues/1721#issuecomment-4428164218
@@ -11,8 +17,8 @@ lib.mkIf (config.programs.niri.finalConfig != null) {
       validated-config-for pkgs package ''
         ${finalConfig}
 
-        // include optional=true "noctalia.kdl"
-        include optional=true "dms/colors.kdl"
+        include optional=true "noctalia.kdl"
+        // include optional=true "dms/colors.kdl"
 
         // --- General settings ---
         window-rule {
@@ -52,7 +58,7 @@ lib.mkIf (config.programs.niri.finalConfig != null) {
 
         // --- Noctalia ---
         layer-rule {
-          match namespace="^noctalia-(background|launcher-overlay|dock)-.*$"
+          match namespace="^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"
           background-effect {
             xray false
             blur true
@@ -60,8 +66,15 @@ lib.mkIf (config.programs.niri.finalConfig != null) {
         }
 
         layer-rule {
-          match namespace="^noctalia-(wallpaper|overview).*$"
+          match namespace="^noctalia-backdrop"
           place-within-backdrop true
+        }
+
+        window-rule {
+          match app-id="dev.noctalia.Noctalia"
+          open-floating true
+          default-column-width { fixed 1080; }
+          default-window-height { fixed 920; }
         }
 
         // --- DMS ---
