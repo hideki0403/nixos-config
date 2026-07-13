@@ -8,12 +8,12 @@
   environment.systemPackages = with pkgs; [
     # Software
     vscode.fhs
+    zed-editor-fhs
     google-chrome
-    microsoft-edge
-    wezterm
     ghostty
     spotify
     seahorse
+    vesktop
 
     # Development
     nodejs-slim
@@ -26,8 +26,10 @@
     wget
     fastfetch
     jq
+    btop
 
     # Tools
+    nil
     nixd
     nixfmt
     nixpkgs-fmt
