@@ -1,0 +1,60 @@
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'config:recommended',
+    ':semanticCommits',
+  ],
+  nix: {
+    enabled: true,
+  },
+  timezone: 'Asia/Tokyo',
+  minimumReleaseAge: '7 days',
+  baseBranchPatterns: [
+    'develop',
+  ],
+  packageRules: [
+    {
+      groupName: 'nixos',
+      groupSlug: 'nixos',
+      matchManagers: ['nix'],
+    },
+    {
+      groupName: 'all-dependencies',
+      groupSlug: 'all',
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+        'pin',
+        'digest',
+      ],
+      matchManagers: [
+        '!nix',
+      ],
+    },
+    {
+      groupName: 'all-dependencies (major)',
+      groupSlug: 'all-major',
+      matchUpdateTypes: [
+        'major',
+      ],
+      matchManagers: [
+        '!nix',
+      ],
+    },
+  ],
+  automerge: true,
+  automergeType: 'pr',
+  platformAutomerge: true,
+  lockFileMaintenance: {
+    enabled: true,
+    automerge: true,
+  },
+  major: {
+    automerge: false,
+  },
+  prConcurrentLimit: 0,
+  prHourlyLimit: 0,
+  schedule: [
+    '* 0-3 * * 6',
+  ],
+}
