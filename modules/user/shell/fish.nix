@@ -3,12 +3,12 @@
     enable = true;
     interactiveShellInit = builtins.readFile ./fish/init.fish;
 
-    functions = {
-      __auto_ls = {
-        body = "ls";
-        onVariable = "PWD";
-      };
-    };
+    # functions = {
+    #   __auto_ls = {
+    #     body = "ls";
+    #     onVariable = "PWD";
+    #   };
+    # };
 
     plugins = [
       {
