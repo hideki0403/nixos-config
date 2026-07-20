@@ -32,7 +32,7 @@
 
       input = {
         # focus-follows-mouse.enable = true;
-        warp-mouse-to-focus.enable = true;
+        warp-mouse-to-focus.enable = false;
         touchpad = {
           tap = true;
           scroll-method = "two-finger";
@@ -48,8 +48,8 @@
         };
 
         # "HDMI-A-1" = {
-          # scale = 1;
-          # mode = "1920x1080@60";
+        # scale = 1;
+        # mode = "1920x1080@60";
         # };
       };
 
