@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
+    ./settings
     ./niri
     ./noctalia
     # ./dank-material-shell
