@@ -59,10 +59,19 @@
       hostEntries = builtins.readDir hostsDir;
       hostDirs = nixpkgs.lib.filterAttrs (name: type: type == "directory") hostEntries;
       hostNames = builtins.attrNames hostDirs;
+
+      formatterSupportedSystems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
     in
     {
       nixosConfigurations = nixpkgs.lib.genAttrs hostNames (
         hostname: mkHost hostname customConfig.username
+      );
+
+      formatter = nixpkgs.lib.genAttrs formatterSupportedSystems (
+        system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style
       );
     };
 }
