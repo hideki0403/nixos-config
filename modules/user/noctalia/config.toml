@@ -7,10 +7,43 @@ order = [ "widgets" ]
     [bar.widgets]
     capsule = true
     capsule_opacity = 0.0
-    capsule_padding = 3.0
-    center = [ "active_window" ]
-    end = [ "workspaces", "spacer_workspace", "cpu", "ram", "spacer_monitor", "tray", "notifications", "notes" ]
-    start = [ "launcher", "clock", "battery", "network", "bluetooth", "output_volume", "privacy", "spacer_media", "media" ]
+    capsule_padding = 6.0
+    center = []
+    end = [ "group:g2", "group:g4", "group:g1", "group:g3" ]
+    start = [ "launcher", "workspaces", "active_window" ]
+    widget_spacing = 8
+
+        [[bar.widgets.capsule_group]]
+        enabled = true
+        fill = "surface_variant"
+        id = "g1"
+        members = [ "volume", "bluetooth", "network", "battery", "privacy" ]
+        opacity = 0.0
+        padding = 6.0
+
+        [[bar.widgets.capsule_group]]
+        enabled = true
+        fill = "surface_variant"
+        id = "g2"
+        members = [ "tray" ]
+        opacity = 0.0
+        padding = 6.0
+
+        [[bar.widgets.capsule_group]]
+        enabled = true
+        fill = "surface_variant"
+        id = "g3"
+        members = [ "clock", "notifications" ]
+        opacity = 0.0
+        padding = 6.0
+
+        [[bar.widgets.capsule_group]]
+        enabled = true
+        fill = "surface_variant"
+        id = "g4"
+        members = [ "cpu", "ram" ]
+        opacity = 0.0
+        padding = 6.0
 
 [battery]
 warning_threshold = 15
@@ -62,9 +95,14 @@ reserve_space = false
 auto_locate = true
 
 [lockscreen_widgets]
-enabled = false
+enabled = true
 schema_version = 2
-widget_order = [ "lockscreen-login-box@eDP-1" ]
+widget_order = [
+    "lockscreen-login-box@eDP-1",
+    "lockscreen-widget-0000000000000001",
+    "lockscreen-widget-0000000000000002",
+    "lockscreen-widget-0000000000000003"
+]
 
     [lockscreen_widgets.grid]
     cell_size = 16
@@ -84,6 +122,7 @@ widget_order = [ "lockscreen-login-box@eDP-1" ]
         background_color = "surface_variant"
         background_opacity = 0.88
         background_radius = 12.0
+        center_password_text = false
         input_opacity = 1.0
         input_radius = 6.0
         show_caps_lock = true
@@ -91,14 +130,67 @@ widget_order = [ "lockscreen-login-box@eDP-1" ]
         show_login_button = true
         show_password_hint = true
 
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000001]
+    box_height = 144.0
+    box_width = 464.0
+    cx = 1024.0
+    cy = 328.0
+    output = "eDP-1"
+    rotation = 0.0
+    type = "clock"
+
+        [lockscreen_widgets.widget.lockscreen-widget-0000000000000001.settings]
+        background = false
+        center_text = true
+        clock_style = "digital"
+        shadow = false
+
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000002]
+    box_height = 32.0
+    box_width = 416.0
+    cx = 1024.0
+    cy = 240.0
+    output = "eDP-1"
+    rotation = 0.0
+    type = "clock"
+
+        [lockscreen_widgets.widget.lockscreen-widget-0000000000000002.settings]
+        background = false
+        clock_style = "digital"
+        color = "on_surface"
+        format = "{:%Y/%m/%d (%A)}"
+        shadow = false
+
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000003]
+    box_height = 64.0
+    box_width = 176.0
+    cx = 1920.0
+    cy = 80.0
+    output = "eDP-1"
+    rotation = 0.0
+    type = "weather"
+
+        [lockscreen_widgets.widget.lockscreen-widget-0000000000000003.settings]
+        background = false
+        shadow = false
+
+[notification]
+border = false
+
+[osd]
+border = false
+
+[plugin_settings."oldirtty/color_picker"]
+hyprpicker-lowercase = true
+
 [plugins]
-enabled = [ "noctalia/screen_recorder", "noctalia/notes", "noctalia/translator", "noctalia/wallhaven" ]
+enabled = [ "noctalia/screen_recorder", "noctalia/notes", "noctalia/translator", "noctalia/wallhaven", "oldirtty/color_picker" ]
 
 [shell]
 avatar_path = "/var/lib/AccountsService/icons/yukineko"
 date_format = "%x %A"
 screen_time_enabled = true
-telemetry_enabled = true
+telemetry_enabled = false
 
     [shell.launcher]
     categories = false
@@ -130,7 +222,7 @@ source = "wallpaper"
 wallpaper_scheme = "soft"
 
     [theme.templates]
-    builtin_ids = [ "niri", "qt" ]
+    builtin_ids = [ "gtk3", "gtk4", "niri", "qt" ]
 
 [wallpaper]
 transition = [ "fade" ]
@@ -162,7 +254,8 @@ custom_image = "/nix/store/b5q8iihzrr35f1ynllz1wr5brvvpf885-noctalia-5.0.0/share
 custom_image_colorize = true
 
 [widget.cpu]
-display = "text"
+display = "gauge"
+show_label = false
 
 [widget.launcher]
 custom_image = "/nix/store/b5q8iihzrr35f1ynllz1wr5brvvpf885-noctalia-5.0.0/share/noctalia/assets/images/distros/nixos.svg"
@@ -183,7 +276,8 @@ type = "noctalia/notes:notes"
 hide_inactive = true
 
 [widget.ram]
-display = "text"
+display = "gauge"
+show_label = false
 
 [widget.spacer_media]
 length = 10
@@ -199,6 +293,10 @@ type = "spacer"
 
 [widget.sysmon]
 display = "text"
+
+[widget.volume]
+enable_scroll = false
+show_label = false
 
 [widget.wallhaven]
 type = "noctalia/wallhaven:wallhaven"
