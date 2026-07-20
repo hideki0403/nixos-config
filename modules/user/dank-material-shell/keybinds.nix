@@ -1,6 +1,13 @@
 { pkgs, ... }:
 let
-  dms = cmd: [ "dms" "ipc" "call" ] ++ (pkgs.lib.splitString " " cmd);
+  dms =
+    cmd:
+    [
+      "dms"
+      "ipc"
+      "call"
+    ]
+    ++ (pkgs.lib.splitString " " cmd);
 in
 {
   programs.niri.settings.binds = {
@@ -27,7 +34,15 @@ in
     "super+Escape".action.spawn = dms "powermenu toggle";
 
     # Others
-    "super+Shift+C".action.spawn = ["dms" "color" "pick" "-a"];
-    "super+Shift+S".action.spawn = ["dms" "screenshot"];
+    "super+Shift+C".action.spawn = [
+      "dms"
+      "color"
+      "pick"
+      "-a"
+    ];
+    "super+Shift+S".action.spawn = [
+      "dms"
+      "screenshot"
+    ];
   };
 }

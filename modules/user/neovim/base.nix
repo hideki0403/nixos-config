@@ -15,9 +15,19 @@ in
     plugins = vimPlugins.plugins;
     initLua =
       let
-        mkEntryFromDrv = drv: if lib.isDerivation drv then { name = "${lib.getName drv}"; path = drv; } else drv;
+        mkEntryFromDrv =
+          drv:
+          if lib.isDerivation drv then
+            {
+              name = "${lib.getName drv}";
+              path = drv;
+            }
+          else
+            drv;
         lazyPath = pkgs.linkFarm "lazy-plugins" (map mkEntryFromDrv vimPlugins.lazy-plugins);
-        lazyConfig = builtins.replaceStrings ["@lazy-path@"] ["${lazyPath}"] (builtins.readFile ./lua/init-lazy.lua);
+        lazyConfig = builtins.replaceStrings [ "@lazy-path@" ] [ "${lazyPath}" ] (
+          builtins.readFile ./lua/init-lazy.lua
+        );
       in
       lib.mkAfter ''
         ${builtins.readFile ./lua/init.lua}
