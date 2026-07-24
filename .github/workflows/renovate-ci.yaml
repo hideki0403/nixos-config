@@ -1,0 +1,26 @@
+name: Renovate CI (NixOS build check)
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    name: Build Nix
+    runs-on: ubuntu-latest
+    if: startsWith(github.head_ref, 'renovate/nixos')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v22
+
+      - name: Setup Magic Nix Cache
+        uses: DeterminateSystems/magic-nix-cache-action@v14
+
+      - name: Check flake
+        run: nix flake check --show-trace
+
+      - name: Build CI configuration
+        run: nix build .#nixosConfigurations.ci.config.system.build.toplevel --show-trace
