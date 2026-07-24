@@ -21,25 +21,7 @@
     {
       groupName: 'all-dependencies',
       groupSlug: 'all',
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-        'pin',
-        'digest',
-      ],
-      matchManagers: [
-        '!nix',
-      ],
-    },
-    {
-      groupName: 'all-dependencies (major)',
-      groupSlug: 'all-major',
-      matchUpdateTypes: [
-        'major',
-      ],
-      matchManagers: [
-        '!nix',
-      ],
+      matchManagers: ['!nix'],
     },
   ],
   automerge: true,
