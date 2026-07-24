@@ -10,7 +10,7 @@
   timezone: 'Asia/Tokyo',
   minimumReleaseAge: '7 days',
   baseBranchPatterns: [
-    'develop',
+    'master',
   ],
   packageRules: [
     {
