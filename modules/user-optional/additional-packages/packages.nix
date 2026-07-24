@@ -6,5 +6,6 @@
     libreoffice-fresh
     wireshark
     microsoft-edge
+    anki
   ];
 }
