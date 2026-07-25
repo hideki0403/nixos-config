@@ -17,6 +17,7 @@
       groupName: 'nixos',
       groupSlug: 'nixos',
       matchManagers: ['nix'],
+      minimumReleaseAge: null,
     },
     {
       groupName: 'all-dependencies',
