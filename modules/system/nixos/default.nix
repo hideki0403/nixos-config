@@ -3,6 +3,7 @@
   imports = [
     ./system.nix
     ./boot.nix
+    ./ssh.nix
     ./locale.nix
     ./packages.nix
     ./services.nix
