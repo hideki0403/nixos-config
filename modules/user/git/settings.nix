@@ -5,6 +5,7 @@
     includes = [
       { path = "~/.gitconfig.local"; }
     ];
+    lfs.enable = true;
   };
 
   programs.gh = {
