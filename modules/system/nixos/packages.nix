@@ -40,6 +40,9 @@
     keyd
     sbctl
     fnm
+    sops
+    age
+    ssh-to-age
 
     # IME
     fcitx5-mellow-themes
