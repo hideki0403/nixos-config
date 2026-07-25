@@ -9,4 +9,5 @@
 
   networking.hostName = "alienware-16-aurora";
   system.stateVersion = "25.11";
+  hardware.enableAllFirmware = true;
 }
