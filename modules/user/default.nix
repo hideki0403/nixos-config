@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, flakeRoot, hasPrivateConfig, ... }:
 {
   imports = [
     ./settings.nix
@@ -10,5 +10,5 @@
     ./git
     ./gnome-keyrings
     ./neovim
-  ];
+  ] ++ lib.optional hasPrivateConfig flakeRoot + "/private/nix/modules/user";
 }
