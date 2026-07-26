@@ -1,6 +1,6 @@
-{ lib, hasPrivate, flakeRoot, ... }:
+{ lib, hasPrivateConfig, flakeRoot, ... }:
 
-lib.mkIf hasPrivate {
+lib.mkIf hasPrivateConfig {
   sops = {
     defaultSopsFile = flakeRoot + "/private/secrets/keys.yaml";
     defaultSopsFormat = "yaml";
