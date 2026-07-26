@@ -10,5 +10,5 @@
     ./git
     ./gnome-keyrings
     ./neovim
-  ] ++ lib.optional hasPrivateConfig flakeRoot + "/private/nix/modules/user";
+  ] ++ lib.optional hasPrivateConfig (flakeRoot + "/private/nix/modules/user");
 }
