@@ -71,7 +71,10 @@
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
               home-manager.users.${username} = import ./hosts/${hostname}/home.nix;
-              home-manager.extraSpecialArgs = { inherit inputs customConfig; };
+              home-manager.extraSpecialArgs = {
+                inherit inputs customConfig hasPrivateConfig;
+                flakeRoot = ./.;
+              };
             }
           ];
         };
