@@ -2,6 +2,7 @@
 {
   imports = [
     ./nixos
+    ./sops
     ./tailscale
     ./plymouth
     ./docker

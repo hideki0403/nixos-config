@@ -27,6 +27,10 @@
       url = "github:nix-community/lanzaboote/v1.1.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   nixConfig = {
@@ -45,17 +49,23 @@
       self,
       nixpkgs,
       home-manager,
+      sops-nix,
       ...
     }@inputs:
     let
       customConfig = import ./config.nix;
+      hasPrivateConfig = builtins.pathExists ./private && builtins.readDir ./private != { };
 
       mkHost =
         hostname: username:
         nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs customConfig; };
+          specialArgs = {
+            inherit inputs customConfig hasPrivateConfig;
+            flakeRoot = ./.;
+          };
           modules = [
             ./hosts/${hostname}/configuration.nix
+            sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
               home-manager.useUserPackages = true;
