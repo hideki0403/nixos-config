@@ -1,13 +1,9 @@
-{ config, lib, hasPrivateConfig, ... }:
+{ config, ... }:
 {
   # Ref: "https://wiki.nixos.org/wiki/Tailscale"
 
   # 1. Enable the service and the firewall
-  services.tailscale = {
-    enable = true;
-    authKeyFile = lib.mkIf hasPrivateConfig config.sops.secrets."tailscale_authkey".path;
-  };
-
+  services.tailscale.enable = true;
   networking.nftables.enable = true;
   networking.firewall = {
     enable = true;
