@@ -1,10 +1,10 @@
 { ... }:
 {
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than +5";
-  };
+  # nix.gc = {
+  #   automatic = true;
+  #   dates = "weekly";
+  #   options = "--delete-older-than +5";
+  # };
 
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [
