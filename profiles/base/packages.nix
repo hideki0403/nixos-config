@@ -2,6 +2,7 @@
 {
   programs.fish.enable = true;
   programs.git.enable = true;
+  programs.nh.enable = true;
 
   environment.systemPackages = with pkgs; [
     # Development
