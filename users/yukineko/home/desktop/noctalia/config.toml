@@ -175,9 +175,11 @@ widget_order = [
         shadow = false
 
 [notification]
+background_opacity = 0.85
 border = false
 
 [osd]
+background_opacity = 0.85
 border = false
 
 [plugin_settings."oldirtty/color_picker"]
@@ -228,13 +230,13 @@ wallpaper_scheme = "soft"
 transition = [ "fade" ]
 
     [wallpaper.default]
-    path = "/home/yukineko/Pictures/Wallpapers/VRChat_2026-04-08_00-46-19.249_7680x4320.png"
+    path = "/home/yukineko/Pictures/Wallpapers/background.11.png"
 
     [wallpaper.last]
-    path = "/home/yukineko/Pictures/Wallpapers/VRChat_2026-04-08_00-46-19.249_7680x4320.png"
+    path = "/home/yukineko/Pictures/Wallpapers/background.11.png"
 
     [wallpaper.monitors.eDP-1]
-    path = "/home/yukineko/Pictures/Wallpapers/VRChat_2026-04-08_00-46-19.249_7680x4320.png"
+    path = "/home/yukineko/Pictures/Wallpapers/background.11.png"
 
 [weather]
 effects = false
@@ -271,6 +273,9 @@ show_label = false
 
 [widget.notes]
 type = "noctalia/notes:notes"
+
+[widget.notifications]
+hide_when_no_unread = true
 
 [widget.privacy]
 hide_inactive = true
