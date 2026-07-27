@@ -53,14 +53,13 @@
       ...
     }@inputs:
     let
-      customConfig = import ./config.nix;
       hasPrivateConfig = builtins.pathExists ./private && builtins.readDir ./private != { };
 
       mkHost =
-        hostname: username:
+        hostname:
         nixpkgs.lib.nixosSystem {
           specialArgs = {
-            inherit inputs customConfig hasPrivateConfig;
+            inherit inputs hasPrivateConfig;
             flakeRoot = ./.;
           };
           modules = [
@@ -70,9 +69,8 @@
             {
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
-              home-manager.users.${username} = import ./hosts/${hostname}/home.nix;
               home-manager.extraSpecialArgs = {
-                inherit inputs customConfig hasPrivateConfig;
+                inherit inputs hasPrivateConfig;
                 flakeRoot = ./.;
               };
             }
@@ -90,10 +88,7 @@
       ];
     in
     {
-      nixosConfigurations = nixpkgs.lib.genAttrs hostNames (
-        hostname: mkHost hostname customConfig.username
-      );
-
+      nixosConfigurations = nixpkgs.lib.genAttrs hostNames (hostname: mkHost hostname);
       formatter = nixpkgs.lib.genAttrs formatterSupportedSystems (
         system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style
       );
