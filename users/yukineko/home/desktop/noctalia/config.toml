@@ -175,11 +175,11 @@ widget_order = [
         shadow = false
 
 [notification]
-background_opacity = 0.85
+background_opacity = 0.84999998100101948
 border = false
 
 [osd]
-background_opacity = 0.85
+background_opacity = 0.84999998100101948
 border = false
 
 [plugin_settings."oldirtty/color_picker"]
@@ -229,15 +229,6 @@ wallpaper_scheme = "soft"
 [wallpaper]
 transition = [ "fade" ]
 
-    [wallpaper.default]
-    path = "/home/yukineko/Pictures/Wallpapers/background.11.png"
-
-    [wallpaper.last]
-    path = "/home/yukineko/Pictures/Wallpapers/background.11.png"
-
-    [wallpaper.monitors.eDP-1]
-    path = "/home/yukineko/Pictures/Wallpapers/background.11.png"
-
 [weather]
 effects = false
 
@@ -251,17 +242,13 @@ font_weight = 700
 format = "{:%H:%M:%S}"
 tooltip_format = "%x %A"
 
-[widget.control-center]
-custom_image = "/nix/store/b5q8iihzrr35f1ynllz1wr5brvvpf885-noctalia-5.0.0/share/noctalia/assets/images/distros/nixos.svg"
-custom_image_colorize = true
-
 [widget.cpu]
 display = "gauge"
 show_label = false
 
 [widget.launcher]
-custom_image = "/nix/store/b5q8iihzrr35f1ynllz1wr5brvvpf885-noctalia-5.0.0/share/noctalia/assets/images/distros/nixos.svg"
-custom_image_colorize = true
+custom_image = "~/nixos-config/assets/logo/nix-snowflake-white.svg"
+custom_image_colorize = false
 
 [widget.media]
 hide_artist = true
@@ -300,8 +287,11 @@ type = "spacer"
 display = "text"
 
 [widget.volume]
-enable_scroll = false
 show_label = false
+
+    [widget.volume.actions]
+    scroll_down = "none"
+    scroll_up = "none"
 
 [widget.wallhaven]
 type = "noctalia/wallhaven:wallhaven"
