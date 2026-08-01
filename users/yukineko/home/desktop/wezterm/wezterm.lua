@@ -1,21 +1,6 @@
 local wezterm = require 'wezterm'
 wezterm.add_to_config_reload_watch_list(wezterm.config_dir)
 
-local function file_exists(name)
-    local f = io.open(name, 'r')
-    if f ~= nil then
-        io.close(f)
-        return true
-    else
-        return false
-    end
-end
-
-local preview_file = wezterm.config_dir .. '/preview.lua'
-if file_exists(preview_file) then
-    return dofile(preview_file)
-end
-
 local config = wezterm.config_builder()
 config.automatically_reload_config = true
 config.use_ime = true
