@@ -3,12 +3,14 @@
   programs.fish.enable = true;
   programs.git.enable = true;
   programs.nh.enable = true;
+  programs.nix-ld.enable = true;
 
   environment.systemPackages = with pkgs; [
     # Development
     nodejs-slim
     pnpm
     corepack
+    deno
 
     # CLI
     neovim
