@@ -2,6 +2,7 @@
 {
   imports = [
     ../base
+    ./packages.nix
     ./mime-apps.nix
     ./niri
     ./noctalia
