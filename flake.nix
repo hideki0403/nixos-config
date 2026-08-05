@@ -85,12 +85,14 @@
       formatterSupportedSystems = [
         "x86_64-linux"
         "aarch64-linux"
+        "aarch64-darwin"
+        "i686-darwin"
       ];
     in
     {
       nixosConfigurations = nixpkgs.lib.genAttrs hostNames (hostname: mkHost hostname);
       formatter = nixpkgs.lib.genAttrs formatterSupportedSystems (
-        system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style
+        system: nixpkgs.legacyPackages.${system}.nixfmt-tree
       );
     };
 }
