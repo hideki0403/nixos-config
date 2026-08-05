@@ -1,7 +1,7 @@
 # Secure Boot
 
 > [!NOTE]
-> まだ初回のrebuildを行っていない場合は、現段階でのconfigを元に`sudo nixos-rebuild switch --flake .#hogehoge`しておく  
+> まだ初回のrebuildを行っていない場合は、現段階でのconfigを元に`nixos-rebuild`しておく  
 
 ## Lanzabooteの導入
 1. セキュアブートをONにした状態でPCを再起動する  
@@ -34,9 +34,7 @@ Enrolled keys to the EFI variables!
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/system
-    ../../modules/system-optional/nvidia
-+   ../../modules/system-optional/secure-boot
++   ../../modules/hardware/secure-boot
   ];
 
   # ...
