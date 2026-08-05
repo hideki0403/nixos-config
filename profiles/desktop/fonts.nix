@@ -18,6 +18,7 @@ in
 
     fontDir.enable = true;
     fontconfig = {
+      enable = true;
       defaultFonts = {
         serif = [
           "Noto Serif CJK JP"
