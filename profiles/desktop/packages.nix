@@ -15,6 +15,7 @@
     nautilus
     keyd
     tail-tray
+    claude-code
 
     # IME
     fcitx5-mellow-themes
