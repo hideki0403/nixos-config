@@ -1,4 +1,9 @@
-{ lib, flakeRoot, hasPrivateConfig, ... }:
+{
+  lib,
+  flakeRoot,
+  hasPrivateConfig,
+  ...
+}:
 {
   imports = [
     ./boot.nix
@@ -8,5 +13,6 @@
     ./system.nix
     ./packages.nix
     ./tailscale.nix
-  ] ++ lib.optional hasPrivateConfig (flakeRoot + "/private/nix/base");
+  ]
+  ++ lib.optional hasPrivateConfig (flakeRoot + "/private/nix/base");
 }
