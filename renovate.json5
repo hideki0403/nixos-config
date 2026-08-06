@@ -20,9 +20,14 @@
       minimumReleaseAge: null,
     },
     {
+      groupName: 'deno',
+      groupSlug: 'deno',
+      matchManagers: ['deno'],
+    },
+    {
       groupName: 'all-dependencies',
       groupSlug: 'all',
-      matchManagers: ['!nix'],
+      matchManagers: ['!nix', '!deno'],
     },
   ],
   automerge: true,
