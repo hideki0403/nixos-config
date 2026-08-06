@@ -1,4 +1,8 @@
 { ... }:
 {
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    openFirewall = true;
+    settings.PermitRootLogin = "prohibit-password";
+  };
 }
