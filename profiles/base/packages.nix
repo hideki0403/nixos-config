@@ -11,6 +11,7 @@
     pnpm
     corepack
     deno
+    python3
 
     # CLI
     neovim
