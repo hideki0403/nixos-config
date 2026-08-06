@@ -1,0 +1,27 @@
+{
+  "$schema": "https://raw.githubusercontent.com/denoland/deno/main/cli/schemas/config-file.v1.json",
+  "imports": {
+    "@cliffy/command": "jsr:@cliffy/command@1.2.1",
+    "@cliffy/prompt": "jsr:@cliffy/prompt@1.2.1"
+  },
+  "lock": {
+    "path": "deno.lock",
+    "frozen": true
+  },
+  "lint": {
+    "include": ["./**/*.ts"],
+    "exclude": [],
+    "rules": {
+      "tags": ["recommended"]
+    }
+  },
+  "fmt": {
+    "include": ["./**/*.ts"],
+    "exclude": [],
+    "useTabs": true,
+    "indentWidth": 4,
+    "lineWidth": 200,
+    "semiColons": false,
+    "singleQuote": true
+  }
+}
