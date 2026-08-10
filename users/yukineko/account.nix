@@ -11,4 +11,8 @@ in
       "wheel"
     ];
   };
+
+  accounts.passwordPolicy.${userConfig.username} = {
+    type = "manual";
+  };
 }

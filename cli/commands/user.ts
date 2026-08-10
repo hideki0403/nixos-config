@@ -6,7 +6,7 @@ import { checkValidRepository, findProfiles } from '../shared/repository.ts'
 import { writeTemplate } from '../shared/template.ts'
 import varidator from '../shared/validator.ts'
 
-type PasswordMethod = 'none' | 'sops' | 'file'
+type PasswordMethod = 'none' | 'manual' | 'sops' | 'file'
 
 function buildPasswordPolicy(method: PasswordMethod, sopsSecret: string, hashedPasswordFile: string) {
 	const target = 'accounts.passwordPolicy.${userConfig.username}'
@@ -14,6 +14,8 @@ function buildPasswordPolicy(method: PasswordMethod, sopsSecret: string, hashedP
 	switch (method) {
 		case 'none':
 			return `${target}.type = "none";`
+		case 'manual':
+			return `${target}.type = "manual";`
 		case 'sops':
 			return `${target} = {\n    type = "sops";\n    sopsSecret = ${nixString(sopsSecret)};\n  };`
 		case 'file':
@@ -42,9 +44,10 @@ export async function createUser(repository: string) {
 	const passwordMethod = await Select.prompt({
 		message: 'Authentication method',
 		options: [
-			{ name: 'Password (with hashed password file)', value: 'file' },
-			{ name: 'Password (with sops)', value: 'sops' },
-			{ name: 'None (`su` login only)', value: 'none' },
+			{ name: 'none: Disable password authentication', value: 'none' },
+			{ name: 'manual: Use password set with `passwd`', value: 'manual' },
+			{ name: 'sops: Use hashed password from sops-nix secret', value: 'sops' },
+			{ name: 'file: Use hashedPasswordFile', value: 'file' },
 		],
 	}) as PasswordMethod
 
@@ -100,5 +103,8 @@ export async function createUser(repository: string) {
 	}
 	if (passwordMethod === 'file') {
 		console.log(`\nPlace a hashed password (e.g. via mkpasswd) at "${hashedPasswordFile}" before applying this configuration.`)
+	}
+	if (passwordMethod === 'manual') {
+		console.log(`\nRun \`passwd ${username}\` as root before applying this configuration, otherwise the pre-switch check will refuse to switch.`)
 	}
 }

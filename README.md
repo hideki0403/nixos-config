@@ -8,31 +8,13 @@ cd nixos-config
 ```
 
 ### Create user
+See [account > create user](docs/account.md#create-user) for details.
 ```sh
 sh cli.sh user
 ```
 
 ### Set password
-Authentication method: `manual`, `file`, `sops`, `none`
-
-#### manual
-```sh
-sudo passwd <username>
-```
-
-#### file
-```sh
-sh cli.sh password
-```
-or
-```sh
-mkdir -p /var/lib/secrets
-mkpasswd -m yescrypt > /var/lib/secrets/<USERNAME>
-chmod 600 /var/lib/secrets/<USERNAME>
-```
-
-#### sops
-Set the hashed password in the sops secrets store (`secrets/*.yaml`).
+See [account > password policy](docs/account.md#password-policy) for details.
 
 ### Create host
 ```sh

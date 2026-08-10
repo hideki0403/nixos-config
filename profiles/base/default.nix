@@ -6,6 +6,7 @@
 }:
 {
   imports = [
+    ./accounts.nix
     ./boot.nix
     ./locale.nix
     ./openssh.nix
