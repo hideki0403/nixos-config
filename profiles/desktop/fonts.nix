@@ -1,13 +1,14 @@
 { pkgs, ... }:
 let
+  noto-jp = pkgs.callPackage ../../pkgs/noto-jp { };
   genjyuu-gothic = pkgs.callPackage ../../pkgs/genjyuu-gothic { };
 in
 {
   fonts = {
     packages = with pkgs; [
       noto-fonts
-      noto-fonts-cjk-sans
       noto-fonts-color-emoji
+      noto-jp
       terminus_font
       cantarell-fonts
       nerd-fonts.jetbrains-mono
