@@ -10,6 +10,7 @@
     ./boot.nix
     ./locale.nix
     ./openssh.nix
+    ./rescue.nix
     ./shell-aliases.nix
     ./system.nix
     ./packages.nix

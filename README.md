@@ -21,6 +21,9 @@ See [account > password policy](docs/account.md#password-policy) for details.
 sh cli.sh host
 ```
 
+### Set rescue SSH key
+Replace `rescueSSHKey` in `config.nix` with the public key you want to use for rescue.
+
 ### Apply configuration
 ```sh
 sudo env NIX_CONFIG='experimental-features = nix-command flakes' \

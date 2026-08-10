@@ -54,12 +54,13 @@
     }@inputs:
     let
       hasPrivateConfig = builtins.pathExists ./private && builtins.readDir ./private != { };
+      flakeConfig = import ./config.nix;
 
       mkHost =
         hostname:
         nixpkgs.lib.nixosSystem {
           specialArgs = {
-            inherit inputs hasPrivateConfig;
+            inherit inputs hasPrivateConfig flakeConfig;
             flakeRoot = ./.;
           };
           modules = [
