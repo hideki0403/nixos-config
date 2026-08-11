@@ -96,7 +96,7 @@ in
           {
             echo "Error: cannot apply this configuration. The following accounts may become unable to log in."
             echo ""
-            printf '- %s\n' "''${missing[@]}"
+            printf -- '- %s\n' "''${missing[@]}"
             echo ""
             echo "See 'docs/account.md' for details."
           } >&2
