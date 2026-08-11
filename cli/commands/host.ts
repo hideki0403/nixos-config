@@ -1,14 +1,32 @@
-import { Checkbox, Confirm, Input, Select } from '@cliffy/prompt'
 import { join } from 'node:path'
 import { createDirectoryAtomically, exists } from '../shared/fs.ts'
 import { nixString } from '../shared/nix.ts'
-import { checkValidRepository, findModules, findProfiles, findUsers, hasHomeProfile } from '../shared/repository.ts'
+import { findModules, findProfiles, findUsers, hasHomeProfile } from '../shared/repository.ts'
 import { writeTemplate } from '../shared/template.ts'
 import varidator from '../shared/validator.ts'
 
-function parseGroups(value: string) {
-	const groups = value.trim() === '' ? [] : value.trim().split(/\s+/)
-	const invalid = groups.find((group) => !/^[a-z_][a-z0-9_.-]*$/.test(group))
+export type HardwareConfiguration = {
+	type: 'generate'
+	targetRoot: string
+} | {
+	type: 'file'
+	path: string
+}
+
+export type HostOptions = {
+	hostname: string
+	stateVersion: string
+	profile: string
+	users: string[]
+	modules: string[]
+	groups: string[]
+	hardware: HardwareConfiguration
+}
+
+const groupPattern = /^[a-z_][a-z0-9_.-]*$/
+
+export function validateGroups(groups: string[]) {
+	const invalid = groups.find((group) => !groupPattern.test(group))
 	if (invalid) {
 		throw new Error(`invalid group name: ${invalid}`)
 	}
@@ -29,120 +47,99 @@ async function generateHardwareConfiguration(targetRoot: string, output: string)
 	await Deno.writeFile(output, result.stdout)
 }
 
+async function writeHardwareConfiguration(hardware: HardwareConfiguration, output: string) {
+	if (hardware.type === 'file') {
+		await Deno.copyFile(hardware.path, output)
+		return
+	}
+
+	await generateHardwareConfiguration(hardware.targetRoot, output)
+}
+
 function buildUserGroups(users: string[], groups: string[]) {
+	if (groups.length === 0) return ''
 	const builtGroups = `[ ${groups.map(nixString).join(' ')} ]`
-	return `\n${users.map((user) => `  users.users.${nixString(user)}.extraGroups = ${builtGroups};`).join('\n')}\n`
+	return `\n${users.map((user) => `  users.users.${nixString(user)}.extraGroups = ${builtGroups};`).join('\n')}`
 }
 
 function buildHomeManagerUsers(users: string[], profile: string) {
-	return users.length === 0 ? '' : `\n${users.map((user) => `  home-manager.users.${nixString(user)} = import ../../users/${user}/home/${profile};`).join('\n')}\n`
+	return users.length === 0 ? '' : `\n${users.map((user) => `  home-manager.users.${nixString(user)} = import ../../users/${user}/home/${profile};`).join('\n')}`
 }
 
-export async function createHost(repository: string) {
-	await checkValidRepository(repository)
-
+export async function validateHostOptions(repository: string, options: HostOptions) {
 	const [profiles, users, modules] = await Promise.all([
 		findProfiles(repository),
 		findUsers(repository),
 		findModules(repository),
 	])
 
-	if (profiles.length === 0) {
-		throw new Error('Cannot find profile.')
+	const hostnameError = varidator.hostname(options.hostname)
+	if (hostnameError) throw new Error(hostnameError)
+
+	if (await exists(join(repository, 'hosts', options.hostname))) {
+		throw new Error(`host "${options.hostname}" is already exists, so it cannot be created`)
 	}
 
-	if (users.length === 0) {
-		throw new Error('User not found. Please create the user first.')
+	const stateVersionError = varidator.stateVersion(options.stateVersion)
+	if (stateVersionError) throw new Error(stateVersionError)
+
+	if (!profiles.includes(options.profile)) {
+		throw new Error(`Cannot find profile: ${options.profile} (available: ${profiles.join(', ')})`)
 	}
 
-	const hostname = await Input.prompt({
-		message: 'hostname',
-		validate: (value: string) => varidator.hostname(value) ?? true,
-	})
+	if (options.users.length === 0) {
+		throw new Error('Please select at least one user.')
+	}
 
-	const stateVersion = await Input.prompt({
-		message: 'NixOS StateVersion',
-		default: '25.11',
-		validate: (value: string) => varidator.stateVersion(value) ?? true,
-	})
-
-	const targetRoot = await Input.prompt({
-		message: 'Select root directory',
-		default: '/',
-		validate: async (value: string) => value !== '' && await exists(value) && (await Deno.stat(value)).isDirectory ? true : 'Please enter a valid directory.',
-	})
-
-	const profile = await Select.prompt({
-		message: 'System profile',
-		options: profiles.map((value) => ({ name: value, value })),
-	})
-
-	const selectedUsers = await Checkbox.prompt({
-		message: 'Users',
-		options: users.map((value) => ({ name: value, value })),
-		validate: (value: string[]) => value.length > 0 ? true : 'Please select at least one user.',
-	})
+	const unknownUsers = options.users.filter((user) => !users.includes(user))
+	if (unknownUsers.length > 0) {
+		throw new Error(`Cannot find user(s): ${unknownUsers.join(', ')} (available: ${users.join(', ')})`)
+	}
 
 	const missingHomes = []
-	for (const user of selectedUsers) {
-		if (!await hasHomeProfile(repository, user, profile)) {
-			missingHomes.push(`users/${user}/home/${profile}/default.nix`)
+	for (const user of options.users) {
+		if (!await hasHomeProfile(repository, user, options.profile)) {
+			missingHomes.push(`users/${user}/home/${options.profile}/default.nix`)
 		}
 	}
 	if (missingHomes.length > 0) {
 		throw new Error(`Cannot find Home Manager profile(s):\n${missingHomes.join('\n')}`)
 	}
 
-	const selectedModules = await Checkbox.prompt({
-		message: 'Optional modules',
-		options: modules,
-	})
-
-	const groups = parseGroups(
-		await Input.prompt({
-			message: 'Additional groups (space-separated)',
-			default: ['laptop', 'desktop'].includes(profile) ? 'networkmanager' : '',
-			validate: (value: string) => {
-			  try {
-					parseGroups(value)
-					return true
-				} catch {
-					return 'Invalid group name.'
-				}
-			}
-		}),
-	)
-
-	if (
-		!await Confirm.prompt({
-			message: 'Generate hardware-configuration.nix and create host?',
-			default: false,
-		})
-	) {
-		console.log('cancelled')
-		return
+	const unknownModules = options.modules.filter((module) => !modules.includes(module))
+	if (unknownModules.length > 0) {
+		throw new Error(`Cannot find module(s): ${unknownModules.join(', ')} (available: ${modules.join(', ')})`)
 	}
+
+	validateGroups(options.groups)
+
+	if (options.hardware.type === 'file') {
+		if (!await exists(options.hardware.path)) {
+			throw new Error(`Cannot find hardware configuration: ${options.hardware.path}`)
+		}
+	} else if (!await exists(options.hardware.targetRoot)) {
+		throw new Error(`Cannot find root directory: ${options.hardware.targetRoot}`)
+	}
+}
+
+export async function createHost(repository: string, options: HostOptions) {
+	await validateHostOptions(repository, options)
 
 	const templateImports = [
 		'./hardware-configuration.nix',
-		`../../profiles/${profile}`,
-		...selectedModules.map((module) => `../../modules/${module}`),
-		...users.map((user) => `../../users/${user}/account.nix`),
-	].map((entry) => `    ${entry}`).join('\n')
+		`../../profiles/${options.profile}`,
+		...options.modules.map((module) => `../../modules/${module}`),
+		...options.users.map((user) => `../../users/${user}/account.nix`),
+	].map((entry, index) => index === 0 ? entry : `    ${entry}`).join('\n')
 
-	const output = await createDirectoryAtomically(join(repository, 'hosts'), hostname, 'host', async (directory) => {
-		await generateHardwareConfiguration(targetRoot, join(directory, 'hardware-configuration.nix'))
+	return await createDirectoryAtomically(join(repository, 'hosts'), options.hostname, 'host', async (directory) => {
+		await writeHardwareConfiguration(options.hardware, join(directory, 'hardware-configuration.nix'))
 		await writeTemplate(join(directory, 'configuration.nix'), 'host/configuration.nix', {
-			HOSTNAME: hostname,
-			STATE_VERSION: stateVersion,
+			HOSTNAME: options.hostname,
+			STATE_VERSION: options.stateVersion,
 			IMPORTS: templateImports,
-			USER_GROUPS: buildUserGroups(selectedUsers, groups),
-			HOME_MANAGER_USERS: buildHomeManagerUsers(selectedUsers, profile),
+			USER_GROUPS: buildUserGroups(options.users, options.groups),
+			HOME_MANAGER_USERS: buildHomeManagerUsers(options.users, options.profile),
 		})
 	})
-
-	console.log(`\nCreated: ${output}`)
-	console.log(
-		`Please run:\n  sudo env NIX_CONFIG='experimental-features = nix-command flakes' nixos-rebuild switch --flake ${repository}#${hostname}`,
-	)
 }

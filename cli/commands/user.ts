@@ -1,110 +1,85 @@
-import { Confirm, Input, Select } from '@cliffy/prompt'
 import { join } from 'node:path'
-import { createDirectoryAtomically } from '../shared/fs.ts'
+import { createDirectoryAtomically, exists } from '../shared/fs.ts'
 import { nixString } from '../shared/nix.ts'
-import { checkValidRepository, findProfiles } from '../shared/repository.ts'
+import { findProfiles } from '../shared/repository.ts'
 import { writeTemplate } from '../shared/template.ts'
 import varidator from '../shared/validator.ts'
 
-type PasswordMethod = 'none' | 'manual' | 'sops' | 'file'
+export const passwordMethods = ['none', 'manual', 'sops', 'file'] as const
+export type PasswordMethod = typeof passwordMethods[number]
 
-function buildPasswordPolicy(method: PasswordMethod, sopsSecret: string, hashedPasswordFile: string) {
+export type UserOptions = {
+	username: string
+	stateVersion: string
+	passwordMethod: PasswordMethod
+	sopsSecret?: string
+	hashedPasswordFile?: string
+}
+
+function buildPasswordPolicy(options: UserOptions) {
 	const target = 'accounts.passwordPolicy.${userConfig.username}'
 
-	switch (method) {
+	switch (options.passwordMethod) {
 		case 'none':
 			return `${target}.type = "none";`
 		case 'manual':
 			return `${target}.type = "manual";`
 		case 'sops':
-			return `${target} = {\n    type = "sops";\n    sopsSecret = ${nixString(sopsSecret)};\n  };`
+			return `${target} = {\n    type = "sops";\n    sopsSecret = ${nixString(options.sopsSecret ?? '')};\n  };`
 		case 'file':
-			return `${target} = {\n    type = "file";\n    hashedPasswordFile = ${nixString(hashedPasswordFile)};\n  };`
+			return `${target} = {\n    type = "file";\n    hashedPasswordFile = ${nixString(options.hashedPasswordFile ?? '')};\n  };`
 	}
 }
 
-export async function createUser(repository: string) {
-	await checkValidRepository(repository)
+export async function validateUserOptions(repository: string, options: UserOptions) {
+	const usernameError = varidator.username(options.username)
+	if (usernameError) throw new Error(usernameError)
+
+	if (await exists(join(repository, 'users', options.username))) {
+		throw new Error(`user "${options.username}" is already exists, so it cannot be created`)
+	}
+
+	const stateVersionError = varidator.stateVersion(options.stateVersion)
+	if (stateVersionError) throw new Error(stateVersionError)
+
+	if (!passwordMethods.includes(options.passwordMethod)) {
+		throw new Error(`Invalid password policy: ${options.passwordMethod} (available: ${passwordMethods.join(', ')})`)
+	}
+
+	if (options.passwordMethod === 'sops') {
+		if (!options.sopsSecret) throw new Error('sops secret name is required when the password policy is "sops".')
+		const sopsSecretError = varidator.sopsSecretName(options.sopsSecret)
+		if (sopsSecretError) throw new Error(sopsSecretError)
+	}
+
+	if (options.passwordMethod === 'file') {
+		if (!options.hashedPasswordFile) throw new Error('hashedPasswordFile path is required when the password policy is "file".')
+		const pathError = varidator.absolutePath(options.hashedPasswordFile)
+		if (pathError) throw new Error(pathError)
+	}
+}
+
+export async function createUser(repository: string, options: UserOptions) {
+	await validateUserOptions(repository, options)
 
 	const profiles = await findProfiles(repository)
 	if (profiles.length === 0) {
 		throw new Error('Cannot find profile.')
 	}
 
-	const username = await Input.prompt({
-		message: 'username',
-		validate: (value: string) => varidator.username(value) ?? true,
-	})
-	const stateVersion = await Input.prompt({
-		message: 'HomeManager StateVersion',
-		default: '25.11',
-		validate: (value: string) => varidator.stateVersion(value) ?? true,
-	})
-
-	const passwordMethod = await Select.prompt({
-		message: 'Authentication method',
-		options: [
-			{ name: 'none: Disable password authentication', value: 'none' },
-			{ name: 'manual: Use password set with `passwd`', value: 'manual' },
-			{ name: 'sops: Use hashed password from sops-nix secret', value: 'sops' },
-			{ name: 'file: Use hashedPasswordFile', value: 'file' },
-		],
-	}) as PasswordMethod
-
-	let sopsSecret = ''
-	let hashedPasswordFile = ''
-
-	if (passwordMethod === 'sops') {
-		sopsSecret = await Input.prompt({
-			message: 'sops secret name',
-			default: `hashed_pw_${username}`,
-			validate: (value: string) => varidator.sopsSecretName(value) ?? true,
-		})
-	}
-
-	if (passwordMethod === 'file') {
-		hashedPasswordFile = await Input.prompt({
-			message: 'hashedPasswordFile path',
-			default: `/var/lib/secrets/${username}`,
-			validate: (value: string) => varidator.absolutePath(value) ?? true,
-		})
-	}
-
-	if (
-		!await Confirm.prompt({
-			message: 'Create this user?',
-			default: false,
-		})
-	) {
-		console.log('Cancelled')
-		return
-	}
-
-	const output = await createDirectoryAtomically(join(repository, 'users'), username, 'user', async (stgDir) => {
+	return await createDirectoryAtomically(join(repository, 'users'), options.username, 'user', async (stgDir) => {
 		await writeTemplate(join(stgDir, 'identity.nix'), 'user/identity.nix', {
-			USERNAME: username,
+			USERNAME: options.username,
 		})
 		await writeTemplate(join(stgDir, 'account.nix'), 'user/account.nix', {
-			PASSWORD_POLICY: buildPasswordPolicy(passwordMethod, sopsSecret, hashedPasswordFile),
+			PASSWORD_POLICY: buildPasswordPolicy(options),
 		})
 		await writeTemplate(join(stgDir, 'home', 'base', 'default.nix'), 'user/home/base/default.nix', {
-			STATE_VERSION: stateVersion,
+			STATE_VERSION: options.stateVersion,
 		})
 
-		for (const profile of profiles.filter((profile) => profile !== 'base')) {
+		for (const profile of profiles) {
 			await writeTemplate(join(stgDir, 'home', profile, 'default.nix'), 'user/home/profile/default.nix')
 		}
 	})
-
-	console.log(`\nCreated: ${output}`)
-
-	if (passwordMethod === 'sops') {
-		console.log(`\nAdd the "${sopsSecret}" secret with sops before applying this configuration.`)
-	}
-	if (passwordMethod === 'file') {
-		console.log(`\nPlace a hashed password (e.g. via mkpasswd) at "${hashedPasswordFile}" before applying this configuration.`)
-	}
-	if (passwordMethod === 'manual') {
-		console.log(`\nRun \`passwd ${username}\` as root before applying this configuration, otherwise the pre-switch check will refuse to switch.`)
-	}
 }

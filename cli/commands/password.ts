@@ -1,7 +1,8 @@
 import { Confirm, Input, Secret, Select } from '@cliffy/prompt'
 import { dirname, join } from 'node:path'
 import { exists } from '../shared/fs.ts'
-import { checkValidRepository, findUsers } from '../shared/repository.ts'
+import { findUsers } from '../shared/repository.ts'
+import { assertInteractive } from '../shared/tty.ts'
 import varidator from '../shared/validator.ts'
 
 const HASH_METHOD = 'yescrypt'
@@ -74,7 +75,7 @@ async function writeHashedPasswordFile(path: string, hash: string) {
 }
 
 export async function setPassword(repository: string) {
-	await checkValidRepository(repository)
+	assertInteractive()
 
 	if (Deno.uid() !== 0) {
 		throw new Error('This command must be run as root. Please retry with sudo.')

@@ -1,5 +1,6 @@
 const templates = {
   'host/configuration.nix': new URL('./host/configuration.nix', import.meta.url),
+  'host/hardware-configuration.nix': new URL('./host/hardware-configuration.nix', import.meta.url),
   'user/account.nix': new URL('./user/account.nix', import.meta.url),
   'user/identity.nix': new URL('./user/identity.nix', import.meta.url),
   'user/home/base/default.nix': new URL('./user/home/base/default.nix', import.meta.url),
