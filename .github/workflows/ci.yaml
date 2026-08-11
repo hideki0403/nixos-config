@@ -33,8 +33,12 @@ jobs:
           extra-conf: |
             accept-flake-config = true
 
-      - name: Setup Magic Nix Cache
-        uses: DeterminateSystems/magic-nix-cache-action@v14
+      - name: Setup Cachix
+        uses: cachix/cachix-action@v17
+        with:
+          name: yukineko
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          pushFilter: '(-source$|\.tar\.gz$)'
 
       - name: Check flake
         run: nix flake check -L --show-trace
@@ -80,8 +84,12 @@ jobs:
           extra-conf: |
             accept-flake-config = true
 
-      - name: Setup Magic Nix Cache
-        uses: DeterminateSystems/magic-nix-cache-action@v14
+      - name: Setup Cachix
+        uses: cachix/cachix-action@v17
+        with:
+          name: yukineko
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          pushFilter: '(-source$|\.tar\.gz$)'
 
       - name: Create user
         run: |
