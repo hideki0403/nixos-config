@@ -83,6 +83,10 @@
       hostDirs = nixpkgs.lib.filterAttrs (name: type: type == "directory") hostEntries;
       hostNames = builtins.attrNames hostDirs;
 
+      testSupportedSystems = [
+        "x86_64-linux"
+      ];
+
       formatterSupportedSystems = [
         "x86_64-linux"
         "aarch64-linux"
@@ -92,6 +96,15 @@
     in
     {
       nixosConfigurations = nixpkgs.lib.genAttrs hostNames (hostname: mkHost hostname);
+      checks = nixpkgs.lib.genAttrs testSupportedSystems (
+        system:
+        import ./tests {
+          inherit inputs system;
+          inherit (nixpkgs) lib;
+          pkgs = nixpkgs.legacyPackages.${system};
+          flakeRoot = ./.;
+        }
+      );
       formatter = nixpkgs.lib.genAttrs formatterSupportedSystems (
         system: nixpkgs.legacyPackages.${system}.nixfmt-tree
       );
