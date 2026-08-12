@@ -42,6 +42,7 @@
       groupSlug: 'nixos',
       matchManagers: ['nix'],
       minimumReleaseAge: null,
+      schedule: '* 0-3 * * 6', // every Saturday at before 03:00 (UTC+9)
       automerge: true,
     },
     {
@@ -49,7 +50,6 @@
       groupSlug: 'nix-shell',
       matchDepNames: ['nix-shell'],
       minimumReleaseAge: null,
-      schedule: '* 0-3 1 * *',
       automerge: true,
     },
     {
@@ -70,6 +70,6 @@
   prConcurrentLimit: 0,
   prHourlyLimit: 0,
   schedule: [
-    '* 0-3 * * 6',
+    '* 0-3 1 * *', // every month on the first day at before 03:00 (UTC+9)
   ],
 }
