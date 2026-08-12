@@ -65,6 +65,7 @@
   lockFileMaintenance: {
     enabled: true,
     automerge: true,
+    commitMessageSuffix: '({{{manager}}})',
   },
   prConcurrentLimit: 0,
   prHourlyLimit: 0,
