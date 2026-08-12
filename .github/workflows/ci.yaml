@@ -59,6 +59,12 @@ jobs:
           extra-conf: |
             accept-flake-config = true
 
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: lts
+          cache: true
+
       - name: Restore and cache Nix store
         uses: nix-community/cache-nix-action@v7
         with:
