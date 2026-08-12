@@ -12,12 +12,34 @@
   baseBranchPatterns: [
     'master',
   ],
+  customManagers: [
+    // Auto update nix-shell dependency in cli.sh
+    {
+      customType: 'regex',
+      managerFilePatterns: ['/^cli\\.sh$/'],
+      matchStrings: [
+        '#!nix-shell -I nixpkgs=https://github\\.com/NixOS/nixpkgs/archive/(?<currentDigest>[0-9a-f]{40})\\.tar\\.gz\\n#@nixpkgs: (?<currentValue>nixos-\\d+\\.\\d+)'
+      ],
+      depNameTemplate: 'nix-shell',
+      packageNameTemplate: 'https://github.com/NixOS/nixpkgs.git',
+      datasourceTemplate: 'git-refs',
+      versioningTemplate: 'regex:^nixos-(?<major>\\d+)\\.(?<minor>\\d+)$',
+      autoReplaceStringTemplate: '#!nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/{{{newDigest}}}.tar.gz\n#@nixpkgs: {{{newValue}}}'
+    }
+  ],
   packageRules: [
     {
       groupName: 'nixos',
       groupSlug: 'nixos',
       matchManagers: ['nix'],
       minimumReleaseAge: null,
+    },
+    {
+      groupName: 'nix-shell',
+      groupSlug: 'nix-shell',
+      matchDepNames: ['nix-shell'],
+      minimumReleaseAge: null,
+      schedule: '* 0-3 1 * *',
     },
     {
       groupName: 'deno',
@@ -28,6 +50,7 @@
       groupName: 'all-dependencies',
       groupSlug: 'all',
       matchManagers: ['!nix', '!deno'],
+      matchDepNames: ['!nix-shell'],
     },
   ],
   automerge: true,
