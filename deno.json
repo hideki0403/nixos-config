@@ -1,6 +1,6 @@
 {
 	"$schema": "https://raw.githubusercontent.com/denoland/deno/main/cli/schemas/config-file.v1.json",
-	"workspace": ["./cli", "./tests/workflow"],
+	"workspace": ["./.github/scripts", "./cli", "./tests/workflow"],
 	"lock": {
 		"path": "deno.lock",
 		"frozen": true

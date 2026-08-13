@@ -1,0 +1,7 @@
+{
+	"$schema": "https://raw.githubusercontent.com/denoland/deno/main/cli/schemas/config-file.v1.json",
+	"tasks": {
+		"nix-build-report": "deno run --allow-env --allow-read --allow-run --allow-write ./nix-build-report.ts",
+		"nix-build-summary": "deno run --allow-env --allow-read --allow-write ./nix-build-summary.ts"
+	}
+}
