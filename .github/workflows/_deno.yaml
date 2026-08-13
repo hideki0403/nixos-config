@@ -18,7 +18,6 @@ jobs:
         uses: denoland/setup-deno@v2
         with:
           deno-version: lts
-          cache: true
 
       - name: Type check
         run: deno task check

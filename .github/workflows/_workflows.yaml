@@ -21,7 +21,6 @@ jobs:
         uses: denoland/setup-deno@v2
         with:
           deno-version: lts
-          cache: true
 
       - name: Validate workflows
         run: deno task validate --strict

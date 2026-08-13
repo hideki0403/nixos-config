@@ -80,7 +80,6 @@ jobs:
         uses: denoland/setup-deno@v2
         with:
           deno-version: lts
-          cache: true
 
       - name: List profiles and users
         id: entries
@@ -120,7 +119,6 @@ jobs:
         uses: denoland/setup-deno@v2
         with:
           deno-version: lts
-          cache: true
 
       - name: Setup Cachix
         if: inputs.mode == 'build'
@@ -178,7 +176,6 @@ jobs:
         uses: denoland/setup-deno@v2
         with:
           deno-version: lts
-          cache: true
 
       - name: Download build reports
         uses: actions/download-artifact@v8
