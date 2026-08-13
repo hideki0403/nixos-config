@@ -33,6 +33,7 @@ jobs:
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v22
         with:
+          summarize: false
           extra-conf: |
             accept-flake-config = true
 

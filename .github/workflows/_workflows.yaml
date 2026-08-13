@@ -23,9 +23,6 @@ jobs:
           deno-version: lts
           cache: true
 
-      # Type checking is covered for the whole Deno workspace by _deno.yaml
-      # Resolves the action.yml of every referenced action at its pinned ref and reports
-      # unknown, deprecated or missing `with:` inputs.
       - name: Validate workflows
         run: deno task validate --strict
         env:

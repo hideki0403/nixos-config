@@ -4,11 +4,6 @@ on:
   workflow_call:
     inputs:
       mode:
-        description: |
-          `build` realises every host configuration and runs the VM tests, so it also covers
-          breakage that lives in nixpkgs itself. `eval` only evaluates them, which is enough to
-          prove that the configuration the CLI generates is structurally valid: unknown options,
-          missing import paths and failed assertions all throw during evaluation.
         type: string
         default: build
 
@@ -26,7 +21,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      # The VM tests need KVM, which the evaluation-only run never reaches
       - name: Enable KVM
         if: inputs.mode == 'build'
         run: |
@@ -37,6 +31,7 @@ jobs:
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v22
         with:
+          summarize: false
           extra-conf: |
             accept-flake-config = true
 
@@ -64,6 +59,7 @@ jobs:
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v22
         with:
+          summarize: false
           extra-conf: |
             accept-flake-config = true
 
@@ -108,6 +104,7 @@ jobs:
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v22
         with:
+          summarize: false
           extra-conf: |
             accept-flake-config = true
 
@@ -143,8 +140,6 @@ jobs:
       - name: Stage generated configuration
         run: git add -A
 
-      # Instantiating the derivation forces the whole module system to be evaluated, so a broken
-      # import path, an unknown option or a failed assertion in the generated host fails here
       - name: Evaluate configuration
         if: inputs.mode == 'eval'
         run: nix eval --raw ".#nixosConfigurations.ci-${{ matrix.profile }}.config.system.build.toplevel.drvPath" --show-trace
