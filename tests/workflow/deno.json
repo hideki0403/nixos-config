@@ -1,0 +1,12 @@
+{
+	"$schema": "https://raw.githubusercontent.com/denoland/deno/main/cli/schemas/config-file.v1.json",
+	"imports": {
+		"@actions/languageservice": "npm:@actions/languageservice@0.3.61",
+		"@std/yaml": "jsr:@std/yaml@1.2.0",
+		"vscode-languageserver-textdocument": "npm:vscode-languageserver-textdocument@1.0.12",
+		"vscode-languageserver-types": "npm:vscode-languageserver-types@3.18.0"
+	},
+	"tasks": {
+		"validate": "deno run --allow-read --allow-write --allow-run --allow-env ./main.ts"
+	}
+}
