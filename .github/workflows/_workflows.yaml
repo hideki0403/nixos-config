@@ -1,0 +1,32 @@
+name: Workflows
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tests/workflow
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: lts
+          cache: true
+
+      # Type checking is covered for the whole Deno workspace by _deno.yaml
+      # Resolves the action.yml of every referenced action at its pinned ref and reports
+      # unknown, deprecated or missing `with:` inputs.
+      - name: Validate workflows
+        run: deno task validate --strict
+        env:
+          GITHUB_TOKEN: ${{ github.token }}

@@ -1,0 +1,103 @@
+name: Merge Guard
+
+on:
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: merge-guard-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  changes:
+    name: Detect changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      nix: ${{ steps.detect.outputs.nix }}
+      deno: ${{ steps.detect.outputs.deno }}
+      workflows: ${{ steps.detect.outputs.workflows }}
+    steps:
+      - name: Detect changed files
+        id: detect
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PULL_REQUEST: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "$PULL_REQUEST" ]; then
+            echo "no pull request: running everything"
+            {
+              echo "nix=true"
+              echo "deno=true"
+              echo "workflows=true"
+            } >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          files="$(gh api "repos/${{ github.repository }}/pulls/$PULL_REQUEST/files" --paginate --jq '.[].filename')"
+          echo "changed files:"
+          echo "$files"
+
+          matches() {
+            echo "$files" | grep -qE "$1"
+          }
+
+          matches '^flake\.(nix|lock)$|^\.github/workflows/_nix\.yaml$' && nix=true || nix=false
+          matches '^cli/|^cli\.sh$|^deno\.(json|lock)$|^\.github/workflows/_deno\.yaml$' && deno=true || deno=false
+          matches '^\.github/workflows/|^tests/workflow/' && workflows=true || workflows=false
+
+          {
+            echo "nix=$nix"
+            echo "deno=$deno"
+            echo "workflows=$workflows"
+          } >> "$GITHUB_OUTPUT"
+
+  nix:
+    name: Nix
+    needs: changes
+    if: needs.changes.outputs.nix == 'true' || needs.changes.outputs.deno == 'true'
+    uses: $/.github/workflows/_nix.yaml
+    with:
+      mode: ${{ needs.changes.outputs.nix == 'true' && 'build' || 'eval' }}
+    secrets: inherit
+
+  deno:
+    name: Deno
+    needs: changes
+    if: needs.changes.outputs.deno == 'true'
+    uses: $/.github/workflows/_deno.yaml
+
+  workflows:
+    name: Workflows
+    needs: changes
+    if: needs.changes.outputs.workflows == 'true'
+    uses: $/.github/workflows/_workflows.yaml
+
+  result:
+    name: Result
+    runs-on: ubuntu-latest
+    needs: [changes, nix, deno, workflows]
+    if: always()
+    steps:
+      - name: Check results
+        env:
+          RESULTS: ${{ toJSON(needs) }}
+        run: |
+          set -euo pipefail
+
+          echo "$RESULTS" | jq -r 'to_entries[] | "\(.key): \(.value.result)"'
+
+          failed="$(echo "$RESULTS" | jq -r 'to_entries[] | select(.value.result != "success" and .value.result != "skipped") | .key')"
+
+          if [ -n "$failed" ]; then
+            echo "::error::the following jobs did not pass: $(echo "$failed" | tr '\n' ' ')"
+            exit 1
+          fi
