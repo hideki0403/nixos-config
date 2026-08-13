@@ -50,7 +50,7 @@ jobs:
             echo "$files" | grep -qE "$1"
           }
 
-          matches '^flake\.(nix|lock)$|^\.github/workflows/_nix\.yaml$' && nix=true || nix=false
+          matches '^flake\.(nix|lock)$|^\.github/scripts/|^\.github/workflows/_nix\.yaml$' && nix=true || nix=false
           matches '^cli/|^cli\.sh$|^deno\.(json|lock)$|^\.github/workflows/_deno\.yaml$' && deno=true || deno=false
           matches '^\.github/workflows/|^tests/workflow/' && workflows=true || workflows=false
 
@@ -94,6 +94,23 @@ jobs:
           set -euo pipefail
 
           echo "$RESULTS" | jq -r 'to_entries[] | "\(.key): \(.value.result)"'
+
+          {
+            echo "## Results"
+            echo
+            echo "| Job | Result |"
+            echo "| --- | --- |"
+            echo "$RESULTS" | jq -r '
+              {
+                success: "$\\textcolor{limegreen}{\\textsf{✔ passed}}$",
+                failure: "$\\textcolor{red}{\\textsf{✕ failed}}$",
+                cancelled: "$\\textcolor{orange}{\\textsf{⊘ cancelled}}$",
+                skipped: "$\\textcolor{gray}{\\textsf{» skipped}}$"
+              } as $labels
+              | to_entries[]
+              | "| \(.key) | \($labels[.value.result] // .value.result) |"
+            '
+          } >> "$GITHUB_STEP_SUMMARY"
 
           failed="$(echo "$RESULTS" | jq -r 'to_entries[] | select(.value.result != "success" and .value.result != "skipped") | .key')"
 
