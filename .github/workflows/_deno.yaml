@@ -36,16 +36,15 @@ jobs:
           summarize: false
           extra-conf: |
             accept-flake-config = true
+            tarball-ttl = 31536000
 
-      - name: Restore and cache Nix store
-        uses: nix-community/cache-nix-action@v7
+      - name: Restore Nix store cache
+        uses: nix-community/cache-nix-action/restore@v7
         with:
-          primary-key: nix-discover-${{ runner.os }}-${{ hashFiles('cli.sh') }}
-          restore-prefixes-first-match: nix-discover-${{ runner.os }}-
-          purge: true
-          purge-prefixes: nix-discover-${{ runner.os }}-
-          purge-created: 0
-          purge-primary-key: never
+          primary-key: nix-cli-${{ runner.os }}-${{ hashFiles('cli.sh') }}
+          restore-prefixes-first-match: nix-cli-${{ runner.os }}-
+          paths: |
+            ~/.cache/nix
 
       - name: Show help
         run: ./cli.sh --help
