@@ -100,7 +100,7 @@
       nixosConfigurations = nixpkgs.lib.genAttrs hostNames (hostname: mkHost hostname);
       checks = nixpkgs.lib.genAttrs testSupportedSystems (
         system:
-        import ./tests {
+        import ./tests/nix {
           inherit inputs system;
           inherit (nixpkgs) lib;
           pkgs = nixpkgs.legacyPackages.${system};
