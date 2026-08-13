@@ -2,7 +2,8 @@
   "$schema": "https://raw.githubusercontent.com/denoland/deno/main/cli/schemas/config-file.v1.json",
   "imports": {
     "@cliffy/command": "jsr:@cliffy/command@1.2.1",
-    "@cliffy/prompt": "jsr:@cliffy/prompt@1.2.1"
+    "@cliffy/prompt": "jsr:@cliffy/prompt@1.2.1",
+    "@std/assert": "jsr:@std/assert@1.0.19"
   },
   "lock": {
     "path": "deno.lock",
