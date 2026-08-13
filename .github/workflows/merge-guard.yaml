@@ -64,6 +64,9 @@ jobs:
     name: Nix
     needs: changes
     if: needs.changes.outputs.nix == 'true' || needs.changes.outputs.deno == 'true'
+    permissions:
+      contents: read
+      actions: write
     uses: $/.github/workflows/_nix.yaml
     with:
       mode: ${{ needs.changes.outputs.nix == 'true' && 'build' || 'eval' }}

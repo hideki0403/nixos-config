@@ -49,6 +49,9 @@ jobs:
   discover:
     name: Discover profiles and users
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
     outputs:
       profiles: ${{ steps.entries.outputs.profiles }}
       users: ${{ steps.entries.outputs.users }}
