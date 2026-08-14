@@ -1,6 +1,6 @@
 #!/usr/bin/env nix-shell
 #!nix-shell -i bash -p bash deno whois
-#!nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/fcb8fcd6bf2d0adecae5bd491afaaaf8311b758d.tar.gz
+#!nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/9f78f44a87948854445dae0b6bf82b2e87e4efb5.tar.gz
 #@nixpkgs: nixos-26.05
 
 set -euo pipefail
