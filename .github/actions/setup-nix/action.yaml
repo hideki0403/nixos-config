@@ -17,8 +17,22 @@ runs:
       with:
         summarize: false
         extra-conf: |
-          accept-flake-config = true
           tarball-ttl = 31536000
+
+    - name: Configure binary caches
+      shell: bash
+      working-directory: ${{ github.workspace }}
+      run: |
+        set -euo pipefail
+
+        read_list() {
+          nix eval --raw --file config.nix "caches.$1" --apply 'builtins.concatStringsSep " "'
+        }
+
+        {
+          echo "extra-substituters = $(read_list substituters)"
+          echo "extra-trusted-public-keys = $(read_list trustedPublicKeys)"
+        } | sudo tee -a /etc/nix/nix.conf > /dev/null
 
     - name: Restore Nix store cache
       if: inputs.cache == 'restore'
