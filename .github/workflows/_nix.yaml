@@ -49,9 +49,6 @@ jobs:
   discover:
     name: Discover profiles and users
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      actions: write
     outputs:
       profiles: ${{ steps.entries.outputs.profiles }}
       users: ${{ steps.entries.outputs.users }}
@@ -74,10 +71,6 @@ jobs:
           restore-prefixes-first-match: nix-cli-${{ runner.os }}-
           paths: |
             ~/.cache/nix
-          purge: true
-          purge-prefixes: nix-cli-${{ runner.os }}-
-          purge-created: 0
-          purge-primary-key: never
 
       - name: Setup Deno
         uses: denoland/setup-deno@v2
