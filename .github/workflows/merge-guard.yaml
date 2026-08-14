@@ -50,9 +50,9 @@ jobs:
             echo "$files" | grep -qE "$1"
           }
 
-          matches '^flake\.(nix|lock)$|^\.github/scripts/|^\.github/actions/|^\.github/workflows/_nix\.yaml$' && nix=true || nix=false
-          matches '^cli/|^cli\.sh$|^deno\.(json|lock)$|^\.github/actions/|^\.github/workflows/_deno\.yaml$' && deno=true || deno=false
-          matches '^\.github/workflows/|^\.github/actions/|^tests/workflow/' && workflows=true || workflows=false
+          matches '^flake\.(nix|lock)$|^\.github/scripts/$' && nix=true || nix=false
+          matches '^cli/|^cli\.sh$|^deno\.(json|lock)$' && deno=true || deno=false
+          matches '^\.github/workflows/|^\.github/actions/' && workflows=true || workflows=false
 
           {
             echo "nix=$nix"
