@@ -28,25 +28,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v22
+      - name: Setup Nix
+        uses: $/.github/actions/setup-nix
         with:
-          summarize: false
-          extra-conf: |
-            accept-flake-config = true
-            tarball-ttl = 31536000
-
-      - name: Restore and cache Nix store
-        uses: nix-community/cache-nix-action@v7
-        with:
-          primary-key: nix-cli-${{ runner.os }}-${{ hashFiles('cli.sh') }}
-          restore-prefixes-first-match: nix-cli-${{ runner.os }}-
-          paths: |
-            ~/.cache/nix
           purge: true
-          purge-prefixes: nix-cli-${{ runner.os }}-
-          purge-created: 0
-          purge-primary-key: never
 
       - name: Fetch dependencies
         run: ./cli.sh --help
