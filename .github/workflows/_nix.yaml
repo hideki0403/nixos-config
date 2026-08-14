@@ -73,9 +73,9 @@ jobs:
             ~/.cache/nix
 
       - name: Setup Deno
-        uses: denoland/setup-deno@v2
+        uses: $/.github/actions/setup-deno
         with:
-          deno-version: lts
+          install: false
 
       - name: List profiles and users
         id: entries
@@ -112,9 +112,7 @@ jobs:
             ~/.cache/nix
 
       - name: Setup Deno
-        uses: denoland/setup-deno@v2
-        with:
-          deno-version: lts
+        uses: $/.github/actions/setup-deno
 
       - name: Setup Cachix
         if: inputs.mode == 'build'
@@ -169,9 +167,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Setup Deno
-        uses: denoland/setup-deno@v2
-        with:
-          deno-version: lts
+        uses: $/.github/actions/setup-deno
 
       - name: Download build reports
         uses: actions/download-artifact@v8

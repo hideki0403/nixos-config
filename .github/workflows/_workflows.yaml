@@ -18,9 +18,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Setup Deno
-        uses: denoland/setup-deno@v2
-        with:
-          deno-version: lts
+        uses: $/.github/actions/setup-deno
 
       - name: Validate workflows
         run: deno task validate --strict

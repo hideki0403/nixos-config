@@ -1,0 +1,62 @@
+name: Setup Deno
+description: Setup Deno pinned to the nixpkgs revision used by cli.sh
+
+inputs:
+  install:
+    description: Install the Deno binary and the dependencies
+    default: 'true'
+
+outputs:
+  deno-version:
+    description: The Deno version resolved from nixpkgs
+    value: ${{ steps.version.outputs.version }}
+
+runs:
+  using: composite
+  steps:
+    - name: Resolve Deno version from nixpkgs
+      id: version
+      shell: bash
+      run: |
+        set -euo pipefail
+
+        digest="$(grep -oP '(?<=nixpkgs/archive/)[0-9a-f]{40}(?=\.tar\.gz)' "$GITHUB_WORKSPACE/cli.sh")"
+        version="$(curl -sfL "https://raw.githubusercontent.com/NixOS/nixpkgs/$digest/pkgs/by-name/de/deno/package.nix" | grep -oP '(?<=^  version = ")[^"]+')"
+
+        if ! echo "$version" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+          echo "::error::could not resolve the Deno version from nixpkgs ($digest)"
+          exit 1
+        fi
+
+        echo "resolved Deno $version from nixpkgs $digest"
+        echo "version=$version" >> "$GITHUB_OUTPUT"
+        echo "DENO_DIR=$HOME/.cache/deno" >> "$GITHUB_ENV"
+
+    - name: Install Deno
+      if: inputs.install == 'true'
+      uses: denoland/setup-deno@v2
+      with:
+        deno-version: ${{ steps.version.outputs.version }}
+
+    - name: Restore Deno cache
+      if: inputs.install != 'true'
+      uses: actions/cache/restore@v4
+      with:
+        path: ~/.cache/deno
+        key: deno-${{ runner.os }}-${{ steps.version.outputs.version }}-${{ hashFiles('deno.lock') }}
+        restore-keys: |
+          deno-${{ runner.os }}-${{ steps.version.outputs.version }}-
+
+    - name: Restore and save Deno cache
+      if: inputs.install == 'true'
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/deno
+        key: deno-${{ runner.os }}-${{ steps.version.outputs.version }}-${{ hashFiles('deno.lock') }}
+        restore-keys: |
+          deno-${{ runner.os }}-${{ steps.version.outputs.version }}-
+
+    - name: Install dependencies
+      if: inputs.install == 'true'
+      shell: bash
+      run: deno install --frozen
