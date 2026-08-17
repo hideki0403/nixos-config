@@ -23,4 +23,10 @@
   # (Optional but recommended for faster boot with VPNs)
   systemd.network.wait-online.enable = false;
   boot.initrd.systemd.network.wait-online.enable = false;
+
+  # Enable Tailscale SSH
+  services.tailscale = {
+    extraUpFlags = [ "--ssh" ];
+    extraSetFlags = [ "--ssh" ];
+  };
 }
