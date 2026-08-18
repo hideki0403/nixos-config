@@ -1,9 +1,10 @@
-{ config, ... }:
-let
-  pwd = "${config.home.homeDirectory}/nixos-config/users/yukineko/home/desktop/noctalia";
-in
+{ mkSymlink, ... }:
 {
   xdg.configFile."noctalia/config.toml" = {
-    source = config.lib.file.mkOutOfStoreSymlink "${pwd}/config.toml";
+    source = mkSymlink ./config.toml;
+  };
+
+  xdg.dataFile."nixos-config/noctalia-assets" = {
+    source = mkSymlink ./assets;
   };
 }

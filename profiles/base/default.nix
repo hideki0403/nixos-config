@@ -7,6 +7,7 @@
     ./openssh.nix
     ./rescue.nix
     ./shell-aliases.nix
+    ./symlink.nix
     ./system.nix
     ./packages.nix
     ./tailscale.nix
