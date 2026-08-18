@@ -50,6 +50,7 @@ pkgs.testers.runNixOSTest {
   node.specialArgs = {
     inherit inputs flakeRoot;
     hasPrivateConfig = false;
+    privateModule = _: [ ];
     flakeConfig = import (flakeRoot + "/config.nix");
   };
 

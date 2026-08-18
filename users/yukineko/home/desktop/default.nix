@@ -1,4 +1,7 @@
-{ ... }:
+let
+  userConfig = import ../../identity.nix;
+in
+{ privateModule, ... }:
 {
   imports = [
     ../base
@@ -10,5 +13,6 @@
     ./ghostty
     ./wezterm
     ./gnome-keyrings
-  ];
+  ]
+  ++ privateModule "users/${userConfig.username}/home/desktop";
 }

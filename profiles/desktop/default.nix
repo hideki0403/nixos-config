@@ -1,4 +1,4 @@
-{ ... }:
+{ privateModule, ... }:
 {
   imports = [
     ../base
@@ -10,5 +10,6 @@
     ./xdg.nix
     ./keyboard-remap.nix
     ./ime.nix
-  ];
+  ]
+  ++ privateModule "profiles/desktop";
 }

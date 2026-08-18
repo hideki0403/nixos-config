@@ -1,9 +1,7 @@
-{
-  lib,
-  flakeRoot,
-  hasPrivateConfig,
-  ...
-}:
+let
+  userConfig = import ../../identity.nix;
+in
+{ privateModule, ... }:
 {
   imports = [
     ./home.nix
@@ -13,5 +11,5 @@
     ./neovim
     ./ssh
   ]
-  ++ lib.optional hasPrivateConfig (flakeRoot + "/private/nix/users/yukineko");
+  ++ privateModule "users/${userConfig.username}/home/base";
 }

@@ -45,11 +45,25 @@
       hasPrivateConfig = builtins.pathExists ./private && builtins.readDir ./private != { };
       flakeConfig = import ./config.nix;
 
+      privateRoot = ./private/nix;
+
+      privateModule =
+        path:
+        let
+          target = privateRoot + "/${path}";
+        in
+        nixpkgs.lib.optional (hasPrivateConfig && builtins.pathExists target) target;
+
       mkHost =
         hostname:
         nixpkgs.lib.nixosSystem {
           specialArgs = {
-            inherit inputs hasPrivateConfig flakeConfig;
+            inherit
+              inputs
+              hasPrivateConfig
+              flakeConfig
+              privateModule
+              ;
             flakeRoot = ./.;
           };
           modules = [
@@ -60,7 +74,7 @@
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
               home-manager.extraSpecialArgs = {
-                inherit inputs hasPrivateConfig;
+                inherit inputs hasPrivateConfig privateModule;
                 flakeRoot = ./.;
               };
             }

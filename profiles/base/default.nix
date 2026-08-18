@@ -1,9 +1,4 @@
-{
-  lib,
-  flakeRoot,
-  hasPrivateConfig,
-  ...
-}:
+{ privateModule, ... }:
 {
   imports = [
     ./accounts.nix
@@ -16,5 +11,5 @@
     ./packages.nix
     ./tailscale.nix
   ]
-  ++ lib.optional hasPrivateConfig (flakeRoot + "/private/nix/base");
+  ++ privateModule "profiles/base";
 }
