@@ -34,5 +34,7 @@
     sops
     age
     ssh-to-age
+    imagemagick
+    ffmpeg
   ];
 }

@@ -19,5 +19,8 @@
 
     # IME
     fcitx5-mellow-themes
+
+    # Tools
+    yt-dlp
   ];
 }
