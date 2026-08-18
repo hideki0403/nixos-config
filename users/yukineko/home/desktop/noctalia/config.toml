@@ -226,7 +226,7 @@ wallpaper_scheme = "soft"
     builtin_ids = [ "gtk3", "gtk4", "niri", "qt" ]
 
 [wallpaper]
-directory = "~/nixos-config/private/assets/yukineko/wallpapers"
+directory = "~/.local/share/wallpapers"
 transition = [ "fade" ]
 
 [weather]
@@ -243,7 +243,7 @@ format = "{:%H:%M:%S}"
 tooltip_format = "%x %A"
 
 [widget.control-center]
-custom_image = "~/nixos-config/assets/logo/nix-snowflake-white.svg"
+custom_image = "~/.local/share/nixos-config/noctalia-assets/nix-snowflake-white.svg"
 custom_image_colorize = true
 
 [widget.cpu]
@@ -252,7 +252,7 @@ show_label = false
 show_value = false
 
 [widget.launcher]
-custom_image = "~/nixos-config/assets/logo/nix-snowflake-white.svg"
+custom_image = "~/.local/share/nixos-config/noctalia-assets/nix-snowflake-white.svg"
 custom_image_colorize = false
 
 [widget.media]
