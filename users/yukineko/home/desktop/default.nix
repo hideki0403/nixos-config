@@ -12,6 +12,7 @@ in
     # ./dank-material-shell
     ./ghostty
     ./wezterm
+    ./thunderbird
     ./gnome-keyrings
   ]
   ++ privateModule "users/${userConfig.username}/home/desktop";

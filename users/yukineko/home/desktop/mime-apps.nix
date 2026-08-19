@@ -15,6 +15,11 @@
       "x-scheme-handler/https" = [ "google-chrome.desktop" ];
       "x-scheme-handler/about" = [ "google-chrome.desktop" ];
       "x-scheme-handler/unknown" = [ "google-chrome.desktop" ];
+
+      # Mail
+      "x-scheme-handler/mailto" = [ "thunderbird.desktop" ];
+      "x-scheme-handler/mid" = [ "thunderbird.desktop" ];
+      "message/rfc822" = [ "thunderbird.desktop" ];
     };
   };
 }
