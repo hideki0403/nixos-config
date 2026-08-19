@@ -14,7 +14,12 @@ in
       lib.types.submodule {
         options = {
           type = lib.mkOption {
-            type = lib.types.enum ["none" "manual" "sops" "file"];
+            type = lib.types.enum [
+              "none"
+              "manual"
+              "sops"
+              "file"
+            ];
           };
 
           sopsSecret = lib.mkOption {

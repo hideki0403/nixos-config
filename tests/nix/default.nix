@@ -11,6 +11,12 @@
   };
 
   accounts-eval = import ./accounts/eval.nix {
-    inherit pkgs lib inputs system flakeRoot;
+    inherit
+      pkgs
+      lib
+      inputs
+      system
+      flakeRoot
+      ;
   };
 }
