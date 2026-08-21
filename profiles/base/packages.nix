@@ -36,5 +36,6 @@
     ssh-to-age
     imagemagick
     ffmpeg
+    openssl
   ];
 }
