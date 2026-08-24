@@ -36,7 +36,7 @@ recent-windows {
 
 // --- Noctalia ---
 layer-rule {
-  match namespace="^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"
+  match namespace="^noctalia-(bar-[^\"]+|notification|panel|attached-panel|osd)$"
   background-effect {
     xray false
     blur true
@@ -78,6 +78,7 @@ window-rule {
     match app-id="zen"
     match app-id="com.mitchellh.ghostty"
     match app-id="kitty"
+    match app-id="dev.zed.Zed"
     draw-border-with-background false
 }
 
