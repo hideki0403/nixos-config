@@ -264,26 +264,6 @@
         "type": "github"
       }
     },
-    "noctalia": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1787540539,
-        "narHash": "sha256-q6ewgZm6eAgdHWIaOV+dwR5/x711AfDUsao3nQ/CdyA=",
-        "owner": "noctalia-dev",
-        "repo": "noctalia-shell",
-        "rev": "a4324409f4f07001d33fbf902be49377ee6b62e2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "noctalia-dev",
-        "repo": "noctalia-shell",
-        "type": "github"
-      }
-    },
     "pre-commit": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -315,7 +295,6 @@
         "mac-style-plymouth": "mac-style-plymouth",
         "niri": "niri",
         "nixpkgs": "nixpkgs",
-        "noctalia": "noctalia",
         "sops-nix": "sops-nix"
       }
     },
