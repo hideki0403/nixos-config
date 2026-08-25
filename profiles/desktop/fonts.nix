@@ -33,6 +33,18 @@ in
         emoji = [ "Noto Color Emoji" ];
         monospace = [ "JetBrainsMono Nerd Font" ];
       };
+
+      localConf = ''
+        <?xml version="1.0"?>
+        <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+        <fontconfig>
+          <match target="pattern">
+            <edit name="family" mode="append" binding="strong">
+              <string>Noto Sans CJK JP</string>
+            </edit>
+          </match>
+        </fontconfig>
+      '';
     };
   };
 }
