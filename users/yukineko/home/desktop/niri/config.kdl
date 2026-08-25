@@ -10,8 +10,15 @@ window-rule {
   }
 
   focus-ring {
-    width 2
+    width 1.5
   }
+}
+
+window-rule {
+    match is-active=false
+    focus-ring {
+        width 0
+    }
 }
 
 layer-rule {
@@ -32,6 +39,17 @@ recent-windows {
       Alt+Tab         { next-window; }
       Alt+Shift+Tab   { previous-window; }
   }
+}
+
+window-rule {
+    match app-id=r#"^org\.gnome\."#
+    match app-id=r#"^org\.wezfurlong\.wezterm$"#
+    match app-id="Alacritty"
+    match app-id="zen"
+    match app-id="com.mitchellh.ghostty"
+    match app-id="kitty"
+    match app-id="dev.zed.Zed"
+    draw-border-with-background false
 }
 
 // --- Noctalia ---
@@ -65,28 +83,6 @@ layer-rule {
 layer-rule {
     match namespace="^quickshell$"
     place-within-backdrop true
-}
-
-window-rule {
-    match app-id=r#"^org\.gnome\."#
-    draw-border-with-background false
-}
-
-window-rule {
-    match app-id=r#"^org\.wezfurlong\.wezterm$"#
-    match app-id="Alacritty"
-    match app-id="zen"
-    match app-id="com.mitchellh.ghostty"
-    match app-id="kitty"
-    match app-id="dev.zed.Zed"
-    draw-border-with-background false
-}
-
-window-rule {
-    match is-active=false
-    focus-ring {
-        width 0
-    }
 }
 
 // Open DMS windows as floating by default
