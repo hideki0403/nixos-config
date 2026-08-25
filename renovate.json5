@@ -43,6 +43,9 @@
       matchManagers: ['nix'],
       minimumReleaseAge: null,
       schedule: '* 0-3 * * 6', // every Saturday at before 03:00 (UTC+9)
+      lockFileMaintenance: {
+        schedule: '* 0-3 * * 6',
+      },
       automerge: true,
     },
     {
@@ -72,6 +75,7 @@
     enabled: true,
     automerge: true,
     commitMessageSuffix: '({{{manager}}})',
+    schedule: '* 0-3 1 * *',
   },
   prConcurrentLimit: 0,
   prHourlyLimit: 0,
