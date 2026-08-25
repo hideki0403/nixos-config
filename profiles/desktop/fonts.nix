@@ -1,6 +1,13 @@
 { pkgs, ... }:
 let
   genjyuu-gothic = pkgs.callPackage ../../pkgs/genjyuu-gothic { };
+  google-fonts = (pkgs.google-fonts.override {
+    fonts = [
+      "Zen Maru Gothic"
+      "Zen Kaku Gothic New"
+      "Kiwi Maru"
+    ];
+  });
 in
 {
   fonts = {
@@ -15,6 +22,7 @@ in
       ibm-plex
       plemoljp-hs
       genjyuu-gothic
+      google-fonts
     ];
 
     fontDir.enable = true;
@@ -28,7 +36,7 @@ in
           "Noto Color Emoji"
         ];
         sansSerif = [
-          "Gen Jyuu GothicL"
+          "Zen Maru Gothic"
           "Noto Sans CJK JP"
           "Noto Color Emoji"
         ];
