@@ -2,6 +2,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./bootloader.nix
     ../../profiles/laptop
     ../../modules/services/docker
     ../../modules/hardware/nvidia
@@ -9,10 +10,12 @@
     ../../users/yukineko/account.nix
   ];
 
+  # System
   networking.hostName = "alienware-16-aurora";
   system.stateVersion = "25.11";
   hardware.enableAllFirmware = true;
 
+  # GPU
   hardware.nvidia = {
     powerManagement.finegrained = true;
     dynamicBoost.enable = true;
@@ -26,6 +29,7 @@
     };
   };
 
+  # User
   users.users.yukineko.extraGroups = [ "networkmanager" ];
   home-manager.users.yukineko = import ../../users/yukineko/home/laptop;
 }
