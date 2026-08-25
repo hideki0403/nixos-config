@@ -58,6 +58,12 @@
       matchManagers: ['deno'],
       automerge: true,
     },
+    {
+      groupName: 'github-actions',
+      groupSlug: 'github-actions',
+      matchManagers: ['github-actions'],
+      automerge: true,
+    }
   ],
   automerge: true,
   automergeType: 'pr',
