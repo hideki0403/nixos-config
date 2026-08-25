@@ -1,6 +1,5 @@
 { pkgs, ... }:
 let
-  noto-jp = pkgs.callPackage ../../pkgs/noto-jp { };
   genjyuu-gothic = pkgs.callPackage ../../pkgs/genjyuu-gothic { };
 in
 {
@@ -8,7 +7,8 @@ in
     packages = with pkgs; [
       noto-fonts
       noto-fonts-color-emoji
-      noto-jp
+      noto-fonts-cjk-sans
+      noto-fonts-cjk-serif
       terminus_font
       cantarell-fonts
       nerd-fonts.jetbrains-mono
@@ -18,8 +18,10 @@ in
     ];
 
     fontDir.enable = true;
+
     fontconfig = {
       enable = true;
+
       defaultFonts = {
         serif = [
           "Noto Serif CJK JP"
