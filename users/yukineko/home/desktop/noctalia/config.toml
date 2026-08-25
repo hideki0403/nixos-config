@@ -89,7 +89,10 @@ widget_order = []
 
 [dock]
 auto_hide = true
+background_opacity = 0.75
+enabled = true
 reserve_space = false
+show_dots = true
 
 [idle]
 behavior_order = [ "screen-off", "lock", "lock-and-suspend" ]
@@ -131,7 +134,7 @@ widget_order = [
     box_height = 196.0
     box_width = 720.0
     cx = 1024.0
-    cy = 1161.0
+    cy = 1074.0
     output = "eDP-1"
     placement_height = 1280.0
     placement_width = 2048.0
@@ -190,26 +193,28 @@ widget_order = [
         shadow = false
 
     [lockscreen_widgets.widget.lockscreen-widget-0000000000000003]
-    box_height = 64.0
-    box_width = 176.0
-    cx = 1920.0
-    cy = 80.0
+    box_height = 48.0
+    box_width = 80.0
+    cx = 1024.0
+    cy = 1224.0
     output = "eDP-1"
     placement_height = 1280.0
     placement_width = 2048.0
     rotation = 0.0
-    type = "weather"
+    type = "sticker"
 
         [lockscreen_widgets.widget.lockscreen-widget-0000000000000003.settings]
         background = false
+        image_path = "~/.local/share/nixos-config/noctalia-assets/nix-snowflake-white.svg"
+        opacity = 1.0
         shadow = false
 
 [notification]
-background_opacity = 0.84999998100101948
+background_opacity = 0.85
 border = false
 
 [osd]
-background_opacity = 0.84999998100101948
+background_opacity = 0.85
 border = false
 
     [osd.kinds]
@@ -222,8 +227,14 @@ hyprpicker-lowercase = true
 enabled = [ "noctalia/screen_recorder", "noctalia/notes", "noctalia/translator", "noctalia/wallhaven", "oldirtty/color_picker" ]
 
 [shell]
+app_icon_color = "primary"
 avatar_path = "/var/lib/AccountsService/icons/yukineko"
+button_borders = false
+card_borders = false
+corner_radius_scale = 1.25
 date_format = "%x %A"
+input_borders = false
+popup_borders = false
 screen_time_enabled = true
 telemetry_enabled = false
 
@@ -254,7 +265,7 @@ builtin = "Noctalia"
 community_palette = "One Dark Two"
 mode = "dark"
 source = "wallpaper"
-wallpaper_scheme = "soft"
+wallpaper_scheme = "muted"
 
     [theme.templates]
     builtin_ids = [ "gtk3", "gtk4", "niri", "qt" ]
@@ -273,8 +284,8 @@ max_length = 400
 
 [widget.clock]
 font_weight = 700
-format = "{:%H:%M:%S}"
-tooltip_format = "%x %A"
+format = "{:%H:%M}"
+tooltip_format = "%x %A %H:%M:%S"
 
 [widget.control-center]
 custom_image = "~/.local/share/nixos-config/noctalia-assets/nix-snowflake-white.svg"
