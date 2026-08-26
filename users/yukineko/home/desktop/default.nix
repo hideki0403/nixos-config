@@ -10,6 +10,7 @@ in
     ./niri
     ./noctalia
     # ./dank-material-shell
+    ./gtk
     ./ghostty
     ./wezterm
     ./thunderbird
