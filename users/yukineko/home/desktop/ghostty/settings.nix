@@ -19,7 +19,12 @@
       notify-on-command-finish-action = "no-bell,notify";
       notify-on-command-finish-after = "0s";
 
-      shell-integration-features = "ssh-terminfo,ssh-env";
+      # Ghosttyのshell-integration (ssh-env) によって`~/.ssh/config`に書いたSetEnvが無視される問題があるので一時的に無効化しておく
+      # 1.3.2で修正が反映予定?
+      # ref: https://github.com/ghostty-org/ghostty/pull/11518
+
+      # shell-integration-features = "ssh-env,ssh-terminfo";
+      shell-integration-features = "";
     };
   };
 }

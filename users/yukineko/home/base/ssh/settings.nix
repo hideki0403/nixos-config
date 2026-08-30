@@ -73,6 +73,11 @@ in
           ControlMaster = "no";
           ControlPath = "~/.ssh/master-%r@%n:%p";
           ControlPersist = "no";
+          SetEnv = {
+            LANG = "C.UTF-8";
+            LC_CTYPE = "C.UTF-8";
+            TERM = "xterm-256color";
+          };
         };
       }
       // lib.mapAttrs mkTailnetHost cfg.hosts;
