@@ -7,7 +7,7 @@
     vesktop
     spotify
     claude-code
-    pgadmin4
+    pgadmin4-desktopmode
 
     # Tools
     wakeonlan
