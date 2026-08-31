@@ -12,7 +12,7 @@
   baseBranchPatterns: [
     'master',
   ],
-  rebaseWhen: 'behind-base-branch',
+  rebaseWhen: 'conflicted',
   customManagers: [
     // Auto update nix-shell dependency in cli.sh
     {
