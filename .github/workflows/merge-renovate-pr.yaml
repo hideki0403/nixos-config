@@ -1,0 +1,68 @@
+name: Merge Renovate PR
+
+on:
+  schedule:
+    - cron: '0 15 * * 5' # every Saturday 00:00 (JST)
+    - cron: '0 0 1 * *' # every month on the first day 09:00 (JST)
+
+concurrency:
+  group: merge-renovate-pr
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  merge:
+    name: Merge Renovate PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate token
+        id: token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.CI_HELPER_APP_ID }}
+          private-key: ${{ secrets.CI_HELPER_APP_PRIVATE_KEY }}
+
+      - name: Merge PR
+        env:
+          GH_TOKEN: ${{ steps.token.outputs.token }}
+          GH_REPO: ${{ github.repository }}
+          TARGET: ${{ github.event.schedule == '0 15 * * 5' && 'nix' || 'others' }}
+        run: |
+          set -euo pipefail
+
+          echo "target: $TARGET"
+
+          if [ "$TARGET" = "nix" ]; then
+            select='index("renovate:nixos")'
+          else
+            select='index("renovate:nixos") | not'
+          fi
+
+          numbers="$(gh pr list --state open --author 'app/renovate' --json number,labels --jq "
+            .[]
+            | select([.labels[].name] as \$labels
+              | (\$labels | index(\"renovate:major\") | not) and (\$labels | $select))
+            | .number
+          ")"
+
+          if [ -z "$numbers" ]; then
+            echo "no target pull requests"
+            exit 0
+          fi
+
+          failed=0
+
+          for number in $numbers; do
+            echo "::group::pull request #$number"
+
+            if ! gh pr merge "$number" --squash --auto; then
+              echo "auto-merge is unavailable: falling back to a direct merge"
+              gh pr merge "$number" --squash || { echo "::warning::failed to merge #$number"; failed=1; }
+            fi
+
+            echo "::endgroup::"
+          done
+
+          exit "$failed"

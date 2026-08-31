@@ -12,6 +12,7 @@
   baseBranchPatterns: [
     'master',
   ],
+  rebaseWhen: 'behind-base-branch',
   customManagers: [
     // Auto update nix-shell dependency in cli.sh
     {
@@ -35,51 +36,37 @@
     },
     {
       matchUpdateTypes: ['major'],
-      automerge: false,
+      addLabels: ['renovate:major'],
     },
     {
       groupName: 'nixos',
       groupSlug: 'nixos',
       matchManagers: ['nix'],
       minimumReleaseAge: null,
-      schedule: '* 0-3 * * 6', // every Saturday at before 03:00 (UTC+9)
-      lockFileMaintenance: {
-        schedule: '* 0-3 * * 6',
-      },
-      automerge: true,
+      addLabels: ['renovate:nixos'],
     },
     {
       groupName: 'nix-shell',
       groupSlug: 'nix-shell',
       matchDepNames: ['nix-shell'],
       minimumReleaseAge: null,
-      automerge: true,
     },
     {
       groupName: 'deno',
       groupSlug: 'deno',
       matchManagers: ['deno'],
-      automerge: true,
     },
     {
       groupName: 'github-actions',
       groupSlug: 'github-actions',
       matchManagers: ['github-actions'],
-      automerge: true,
     }
   ],
-  automerge: true,
-  automergeType: 'pr',
-  platformAutomerge: true,
   lockFileMaintenance: {
     enabled: true,
-    automerge: true,
     commitMessageSuffix: '({{{manager}}})',
-    schedule: '* 0-3 1 * *',
+    schedule: 'at any time',
   },
   prConcurrentLimit: 0,
   prHourlyLimit: 0,
-  schedule: [
-    '* 0-3 1 * *', // every month on the first day at before 03:00 (UTC+9)
-  ],
 }
