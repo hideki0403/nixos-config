@@ -19,9 +19,9 @@ jobs:
     steps:
       - name: Generate token
         id: token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         with:
-          app-id: ${{ vars.CI_HELPER_APP_ID }}
+          client-id: ${{ vars.CI_HELPER_APP_CLIENT_ID }}
           private-key: ${{ secrets.CI_HELPER_APP_PRIVATE_KEY }}
 
       - name: Merge PR
