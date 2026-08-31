@@ -36,30 +36,33 @@
     },
     {
       matchUpdateTypes: ['major'],
-      addLabels: ['renovate:major'],
+      addLabels: ['renovate:no-automerge'],
     },
     {
       groupName: 'nixos',
       groupSlug: 'nixos',
       matchManagers: ['nix'],
       minimumReleaseAge: null,
-      addLabels: ['renovate:nixos'],
+      addLabels: ['renovate:weekly'],
     },
     {
       groupName: 'nix-shell',
       groupSlug: 'nix-shell',
       matchDepNames: ['nix-shell'],
       minimumReleaseAge: null,
+      addLabels: ['renovate:monthly'],
     },
     {
       groupName: 'deno',
       groupSlug: 'deno',
       matchManagers: ['deno'],
+      addLabels: ['renovate:monthly'],
     },
     {
       groupName: 'github-actions',
       groupSlug: 'github-actions',
       matchManagers: ['github-actions'],
+      addLabels: ['renovate:monthly'],
     }
   ],
   lockFileMaintenance: {

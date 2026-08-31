@@ -28,22 +28,25 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.token.outputs.token }}
           GH_REPO: ${{ github.repository }}
-          TARGET: ${{ github.event.schedule == '0 15 * * 5' && 'nix' || 'others' }}
+          TARGET: ${{ (github.event.schedule == '0 15 * * 5' && 'weekly') || (github.event.schedule == '0 0 1 * *' && 'monthly') || 'invalid' }}
         run: |
           set -euo pipefail
 
           echo "target: $TARGET"
 
-          if [ "$TARGET" = "nix" ]; then
-            select='index("renovate:nixos")'
+          if [ "$TARGET" = "weekly" ]; then
+            select='index("renovate:weekly")'
+          elif [ "$TARGET" = "monthly" ]; then
+            select='index("renovate:monthly")'
           else
-            select='index("renovate:nixos") | not'
+            echo "invalid target: $TARGET"
+            exit 1
           fi
 
           numbers="$(gh pr list --state open --author 'app/renovate' --json number,labels --jq "
             .[]
             | select([.labels[].name] as \$labels
-              | (\$labels | index(\"renovate:major\") | not) and (\$labels | $select))
+              | (\$labels | index(\"renovate:no-automerge\") | not) and (\$labels | $select))
             | .number
           ")"
 
