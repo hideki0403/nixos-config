@@ -10,8 +10,10 @@ on:
           - weekly
           - monthly
   schedule:
-    - cron: '30 18 * * 5' # every Saturday 03:30 (JST)
-    - cron: '30 3 1 * *' # every month on the first day 12:30 (JST)
+    - cron: '30 3 * * 6' # every Saturday 03:30 (JST)
+      timezone: Asia/Tokyo
+    - cron: '30 3 1 * *' # every month on the first day 3:30 (JST)
+      timezone: Asia/Tokyo
 
 concurrency:
   group: merge-renovate-pr
@@ -37,7 +39,7 @@ jobs:
             target="$INPUT_TARGET"
           else
             case "$SCHEDULE" in
-              '30 18 * * 5') target='weekly' ;;
+              '30 3 * * 5') target='weekly' ;;
               '30 3 1 * *') target='monthly' ;;
               *) echo "::error::unknown schedule: $SCHEDULE"; exit 1 ;;
             esac
