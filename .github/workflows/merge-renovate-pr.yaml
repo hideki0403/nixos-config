@@ -1,9 +1,17 @@
 name: Merge Renovate PR
 
 on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: label
+        type: choice
+        options:
+          - weekly
+          - monthly
   schedule:
-    - cron: '0 15 * * 5' # every Saturday 00:00 (JST)
-    - cron: '0 0 1 * *' # every month on the first day 09:00 (JST)
+    - cron: '30 18 * * 5' # every Saturday 03:30 (JST)
+    - cron: '30 3 1 * *' # every month on the first day 12:30 (JST)
 
 concurrency:
   group: merge-renovate-pr
@@ -17,6 +25,27 @@ jobs:
     name: Merge Renovate PR
     runs-on: ubuntu-latest
     steps:
+      - name: Determine target
+        id: target
+        env:
+          INPUT_TARGET: ${{ inputs.target }}
+          SCHEDULE: ${{ github.event.schedule }}
+        run: |
+          set -euo pipefail
+
+          if [ -n "$INPUT_TARGET" ]; then
+            target="$INPUT_TARGET"
+          else
+            case "$SCHEDULE" in
+              '30 18 * * 5') target='weekly' ;;
+              '30 3 1 * *') target='monthly' ;;
+              *) echo "::error::unknown schedule: $SCHEDULE"; exit 1 ;;
+            esac
+          fi
+
+          echo "target: $target"
+          echo "target=$target" >> "$GITHUB_OUTPUT"
+
       - name: Generate token
         id: token
         uses: actions/create-github-app-token@v3
@@ -28,25 +57,14 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.token.outputs.token }}
           GH_REPO: ${{ github.repository }}
-          TARGET: ${{ (github.event.schedule == '0 15 * * 5' && 'weekly') || (github.event.schedule == '0 0 1 * *' && 'monthly') || 'invalid' }}
+          TARGET: ${{ steps.target.outputs.target }}
         run: |
           set -euo pipefail
-
-          echo "target: $TARGET"
-
-          if [ "$TARGET" = "weekly" ]; then
-            select='index("renovate:weekly")'
-          elif [ "$TARGET" = "monthly" ]; then
-            select='index("renovate:monthly")'
-          else
-            echo "invalid target: $TARGET"
-            exit 1
-          fi
 
           numbers="$(gh pr list --state open --author 'app/renovate' --json number,labels --jq "
             .[]
             | select([.labels[].name] as \$labels
-              | (\$labels | index(\"renovate:no-automerge\") | not) and (\$labels | $select))
+              | (\$labels | index(\"renovate:no-automerge\") | not) and (\$labels | index(\"renovate:$TARGET\")))
             | .number
           ")"
 
