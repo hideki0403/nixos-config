@@ -39,7 +39,7 @@ jobs:
             target="$INPUT_TARGET"
           else
             case "$SCHEDULE" in
-              '30 3 * * 5') target='weekly' ;;
+              '30 3 * * 6') target='weekly' ;;
               '30 3 1 * *') target='monthly' ;;
               *) echo "::error::unknown schedule: $SCHEDULE"; exit 1 ;;
             esac
