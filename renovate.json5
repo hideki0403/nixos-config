@@ -64,13 +64,16 @@
       groupSlug: 'github-actions',
       matchManagers: ['github-actions'],
       addLabels: ['renovate:monthly'],
+    },
+    {
+      matchUpdateTypes: ['lockFileMaintenance'],
+      addLabels: ['renovate:lockfile'],
     }
   ],
   lockFileMaintenance: {
     enabled: true,
     commitMessageSuffix: '({{{manager}}})',
     schedule: 'at any time',
-    addLabels: ['renovate:lockfile']
   },
   prConcurrentLimit: 0,
   prHourlyLimit: 0,
