@@ -1,0 +1,86 @@
+name: Rebase Lockfile PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: label
+        type: choice
+        options:
+          - weekly
+          - monthly
+  schedule:
+    - cron: '30 15 * * 5' # every Friday 15:30 (JST), 12h before the weekly merge
+      timezone: Asia/Tokyo
+    - cron: '30 15 28-31 * *' # every month 28-31 15:30 (JST), 12h before the monthly merge on day 1
+      timezone: Asia/Tokyo
+
+concurrency:
+  group: rebase-lockfile-pr
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  rebase:
+    name: Rebase Lockfile PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Determine target
+        id: target
+        env:
+          INPUT_TARGET: ${{ inputs.target }}
+          SCHEDULE: ${{ github.event.schedule }}
+        run: |
+          set -euo pipefail
+
+          if [ -n "$INPUT_TARGET" ]; then
+            target="$INPUT_TARGET"
+          else
+            case "$SCHEDULE" in
+              '30 15 * * 5') target='weekly' ;;
+              '30 15 28-31 * *')
+                tomorrow="$(TZ=Asia/Tokyo date -d '+1 day' +%d)"
+                if [ "$tomorrow" != "01" ]; then
+                  echo "tomorrow is not the first day of the month, skipping"
+                  exit 0
+                fi
+                target='monthly'
+                ;;
+              *) echo "::error::unknown schedule: $SCHEDULE"; exit 1 ;;
+            esac
+          fi
+
+          echo "target: $target"
+          echo "target=$target" >> "$GITHUB_OUTPUT"
+
+      - name: Generate token
+        if: steps.target.outputs.target != ''
+        id: token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.CI_HELPER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.CI_HELPER_APP_PRIVATE_KEY }}
+
+      - name: Add rebase label
+        if: steps.target.outputs.target != ''
+        env:
+          GH_TOKEN: ${{ steps.token.outputs.token }}
+          GH_REPO: ${{ github.repository }}
+          TARGET: ${{ steps.target.outputs.target }}
+        run: |
+          set -euo pipefail
+
+          numbers="$(gh pr list --state open --author 'app/renovate' --label renovate:lockfile --label "renovate:$TARGET" --json number --jq '.[].number')"
+
+          if [ -z "$numbers" ]; then
+            echo "no target pull requests"
+            exit 0
+          fi
+
+          for number in $numbers; do
+            echo "::group::pull request #$number"
+            gh pr edit "$number" --add-label renovate:rebase
+            echo "::endgroup::"
+          done

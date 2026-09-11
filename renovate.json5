@@ -13,6 +13,7 @@
     'master',
   ],
   rebaseWhen: 'conflicted',
+  rebaseLabel: 'renovate:rebase',
   customManagers: [
     // Auto update nix-shell dependency in cli.sh
     {
@@ -69,6 +70,7 @@
     enabled: true,
     commitMessageSuffix: '({{{manager}}})',
     schedule: 'at any time',
+    addLabels: ['renovate:lockfile']
   },
   prConcurrentLimit: 0,
   prHourlyLimit: 0,
