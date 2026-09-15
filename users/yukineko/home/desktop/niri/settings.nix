@@ -47,11 +47,6 @@
           scale = 1.25;
           variable-refresh-rate = true;
         };
-
-        # "HDMI-A-1" = {
-        # scale = 1;
-        # mode = "1920x1080@60";
-        # };
       };
 
       workspaces = {
