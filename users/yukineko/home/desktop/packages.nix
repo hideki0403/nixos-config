@@ -8,6 +8,7 @@
     spotify
     claude-code
     pgadmin4-desktopmode
+    gimp
 
     # Tools
     wakeonlan
