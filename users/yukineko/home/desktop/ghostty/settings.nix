@@ -7,7 +7,7 @@
     settings = {
       font-family = [
         "JetBrainsMono Nerd Font"
-        "PlemolJP HS"
+        "Source Han Code JP"
       ];
       theme = "One Half Dark";
       background-opacity = 0.8;
