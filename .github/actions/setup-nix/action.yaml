@@ -13,7 +13,7 @@ runs:
   using: composite
   steps:
     - name: Install Nix
-      uses: DeterminateSystems/nix-installer-action@v22
+      uses: DeterminateSystems/nix-installer-action@v23
       with:
         summarize: false
         extra-conf: |
