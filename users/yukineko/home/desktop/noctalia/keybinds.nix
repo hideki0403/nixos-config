@@ -37,5 +37,6 @@ in
     "super+L".action.spawn = noctalia "session lock";
     "super+Shift+S".action.spawn = noctalia "screenshot-region";
     "super+Shift+C".action.spawn = noctalia "plugin oldirtty/color_picker:service all pick";
+    "control+Print".action.spawn = noctalia "screenshot-annotate";
   };
 }
