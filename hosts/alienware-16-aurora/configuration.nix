@@ -6,6 +6,7 @@
     ../../profiles/laptop
     ../../modules/services/docker
     ../../modules/hardware/nvidia
+    ../../modules/networking/wired-8021x-univ
     ../../modules/hardware/secure-boot
     ../../users/yukineko/account.nix
   ];
