@@ -24,7 +24,7 @@ let
             device = "/dev/disk/by-label/nixos";
             fsType = "ext4";
           };
-          system.stateVersion = "25.11";
+          system.stateVersion = lib.trivial.release;
 
           users.users.testuser.isNormalUser = true;
           sops.defaultSopsFile = ../fixtures/secrets.yaml;

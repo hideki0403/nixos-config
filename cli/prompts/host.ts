@@ -1,6 +1,7 @@
 import { Checkbox, Confirm, Input, Select } from '@cliffy/prompt'
 import { type HardwareConfiguration, type HostOptions, validateGroups } from '../commands/host.ts'
 import { exists } from '../shared/fs.ts'
+import { nixosRelease } from '../shared/nix.ts'
 import { findModules, findProfiles, findUsers } from '../shared/repository.ts'
 import { assertInteractive } from '../shared/tty.ts'
 import varidator from '../shared/validator.ts'
@@ -34,7 +35,7 @@ export async function resolveHostOptions(repository: string, defaults: HostDefau
 
 	const stateVersion = defaults.stateVersion ?? await Input.prompt({
 		message: 'NixOS StateVersion',
-		default: '25.11',
+		default: await nixosRelease(repository),
 		validate: (value: string) => varidator.stateVersion(value) ?? true,
 	})
 

@@ -7,9 +7,6 @@ on:
         type: string
         default: build
 
-env:
-  CI_STATE_VERSION: "25.11"
-
 permissions:
   contents: read
 
@@ -102,7 +99,6 @@ jobs:
             --hostname "ci-${{ matrix.profile }}" \
             --profile "${{ matrix.profile }}" \
             --users "${{ join(fromJSON(needs.discover.outputs.users), ',') }}" \
-            --state-version "$CI_STATE_VERSION" \
             --hardware-config cli/templates/host/hardware-configuration.nix
 
       - name: Stage generated configuration

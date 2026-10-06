@@ -6,6 +6,7 @@ import { setPassword } from './commands/password.ts'
 import { createUser, type PasswordMethod, passwordMethods } from './commands/user.ts'
 import { resolveHostOptions } from './prompts/host.ts'
 import { resolveUserOptions } from './prompts/user.ts'
+import { nixosRelease } from './shared/nix.ts'
 import { checkValidRepository } from './shared/repository.ts'
 import { parseList, requireOption } from './shared/tty.ts'
 
@@ -40,7 +41,7 @@ const command = new Command()
 
 		const resolved = options.nonInteractive ? {
 			hostname: requireOption(options.hostname, '--hostname'),
-			stateVersion: requireOption(options.stateVersion, '--state-version'),
+			stateVersion: options.stateVersion ?? await nixosRelease(repository),
 			profile: requireOption(options.profile, '--profile'),
 			users: requireOption(parseList(options.users), '--users'),
 			modules: parseList(options.modules) ?? [],
@@ -86,7 +87,7 @@ const command = new Command()
 		const resolved = options.nonInteractive
 			? {
 				username: requireOption(options.username, '--username'),
-				stateVersion: requireOption(options.stateVersion, '--state-version'),
+				stateVersion: options.stateVersion ?? await nixosRelease(repository),
 				passwordMethod: requireOption(options.passwordPolicy, '--password-policy') as PasswordMethod,
 				sopsSecret: options.sopsSecret,
 				hashedPasswordFile: options.hashedPasswordFile,

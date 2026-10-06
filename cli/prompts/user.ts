@@ -1,5 +1,6 @@
 import { Confirm, Input, Select } from '@cliffy/prompt'
 import { type PasswordMethod, type UserOptions } from '../commands/user.ts'
+import { nixosRelease } from '../shared/nix.ts'
 import { findProfiles } from '../shared/repository.ts'
 import { assertInteractive } from '../shared/tty.ts'
 import varidator from '../shared/validator.ts'
@@ -21,7 +22,7 @@ export async function resolveUserOptions(repository: string, defaults: UserDefau
 
 	const stateVersion = defaults.stateVersion ?? await Input.prompt({
 		message: 'HomeManager StateVersion',
-		default: '25.11',
+		default: await nixosRelease(repository),
 		validate: (value: string) => varidator.stateVersion(value) ?? true,
 	})
 
