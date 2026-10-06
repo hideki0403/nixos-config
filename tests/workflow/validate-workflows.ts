@@ -13,7 +13,7 @@ function findRepository() {
 		try {
 			if (Deno.statSync(join(current, '.github', 'workflows')).isDirectory) return current
 		} catch {
-		  // Do nothing
+			// Do nothing
 		}
 
 		const parent = dirname(current)

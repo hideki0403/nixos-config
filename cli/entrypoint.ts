@@ -39,27 +39,29 @@ const command = new Command()
 			path: resolve(options.hardwareConfig),
 		}
 
-		const resolved = options.nonInteractive ? {
-			hostname: requireOption(options.hostname, '--hostname'),
-			stateVersion: options.stateVersion ?? await nixosRelease(repository),
-			profile: requireOption(options.profile, '--profile'),
-			users: requireOption(parseList(options.users), '--users'),
-			modules: parseList(options.modules) ?? [],
-			groups: parseList(options.groups) ?? [],
-			hardware: hardware ?? {
-				type: 'generate' as const,
-				targetRoot: options.root ?? '/',
-			},
-		} : await resolveHostOptions(repository, {
-			hostname: options.hostname,
-			stateVersion: options.stateVersion,
-			profile: options.profile,
-			users: parseList(options.users),
-			modules: parseList(options.modules),
-			groups: parseList(options.groups),
-			hardwareConfig: hardware?.path,
-			targetRoot: options.root,
-		})
+		const resolved = options.nonInteractive
+			? {
+				hostname: requireOption(options.hostname, '--hostname'),
+				stateVersion: options.stateVersion ?? await nixosRelease(repository),
+				profile: requireOption(options.profile, '--profile'),
+				users: requireOption(parseList(options.users), '--users'),
+				modules: parseList(options.modules) ?? [],
+				groups: parseList(options.groups) ?? [],
+				hardware: hardware ?? {
+					type: 'generate' as const,
+					targetRoot: options.root ?? '/',
+				},
+			}
+			: await resolveHostOptions(repository, {
+				hostname: options.hostname,
+				stateVersion: options.stateVersion,
+				profile: options.profile,
+				users: parseList(options.users),
+				modules: parseList(options.modules),
+				groups: parseList(options.groups),
+				hardwareConfig: hardware?.path,
+				targetRoot: options.root,
+			})
 
 		if (resolved === undefined) {
 			console.log('Cancelled')

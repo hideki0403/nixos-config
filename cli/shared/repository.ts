@@ -93,7 +93,7 @@ async function loadModule(repository: string, dir: string) {
 export async function findModules(repository: string) {
 	const root = join(repository, 'modules')
 	const modules = await Promise.all((await listModules(root)).map((directory) => loadModule(repository, directory)))
-	return modules.filter(module => module !== undefined)
+	return modules.filter((module) => module !== undefined)
 }
 
 export async function hasHomeProfile(repository: string, username: string, profile: string) {
