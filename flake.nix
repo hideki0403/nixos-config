@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -66,14 +67,29 @@
             ./hosts/${hostname}/configuration.nix
             sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
-            {
-              home-manager.useUserPackages = true;
-              home-manager.backupFileExtension = "backup";
-              home-manager.extraSpecialArgs = {
-                inherit inputs hasPrivateConfig privateModule;
-                flakeRoot = ./.;
-              };
-            }
+            (
+              { pkgs, ... }:
+              let
+                pkgs-stable = import inputs.nixpkgs-stable {
+                  inherit (pkgs.stdenv.hostPlatform) system;
+                  config.allowUnfree = true;
+                };
+              in
+              {
+                _module.args.pkgs-stable = pkgs-stable;
+                home-manager.useUserPackages = true;
+                home-manager.backupFileExtension = "backup";
+                home-manager.extraSpecialArgs = {
+                  inherit
+                    inputs
+                    hasPrivateConfig
+                    privateModule
+                    pkgs-stable
+                    ;
+                  flakeRoot = ./.;
+                };
+              }
+            )
           ];
         };
 

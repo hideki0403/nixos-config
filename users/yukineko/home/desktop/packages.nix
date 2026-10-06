@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, pkgs-stable, ... }: {
   home.packages = with pkgs; [
     # Software
     vscode.fhs
@@ -7,8 +7,8 @@
     vesktop
     spotify
     claude-code
-    pgadmin4-desktopmode
     gimp
+    pkgs-stable.pgadmin4-desktopmode
 
     # Tools
     wakeonlan
