@@ -68,6 +68,13 @@
     {
       matchUpdateTypes: ['lockFileMaintenance'],
       addLabels: ['renovate:lockfile'],
+    },
+    {
+      groupName: 'nixos-release',
+      groupSlug: 'nixos-release',
+      matchDepNames: ['nix-shell', 'nixpkgs-stable'],
+      matchUpdateTypes: ['major', 'minor'],
+      addLabels: ['renovate:no-automerge'],
     }
   ],
   lockFileMaintenance: {
