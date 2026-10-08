@@ -4,7 +4,7 @@
     ./accounts.nix
     ./boot.nix
     ./locale.nix
-    ./openssh.nix
+    ./services.nix
     ./rescue.nix
     ./shell-aliases.nix
     ./symlink.nix
