@@ -13,6 +13,7 @@
     keyd
     tail-tray
     xwayland-satellite
+    vlc
 
     # IME
     fcitx5-mellow-themes
