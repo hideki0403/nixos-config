@@ -5,7 +5,7 @@
     zed-editor-fhs
     google-chrome
     vesktop
-    spotify
+    spotifast
     claude-code
     gimp
     pkgs-stable.pgadmin4-desktopmode
