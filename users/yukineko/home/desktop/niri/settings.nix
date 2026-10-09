@@ -42,13 +42,6 @@
         };
       };
 
-      outputs = {
-        "eDP-1" = {
-          scale = 1.25;
-          variable-refresh-rate = true;
-        };
-      };
-
       workspaces = {
         # TODO
       };

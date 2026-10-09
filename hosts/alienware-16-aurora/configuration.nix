@@ -3,6 +3,7 @@
   imports = [
     ./hardware-configuration.nix
     ./bootloader.nix
+    ./niri.nix
     ../../profiles/laptop
     ../../modules/services/docker
     ../../modules/hardware/nvidia
