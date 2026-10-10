@@ -15,7 +15,7 @@ let
         flakeConfig = import (flakeRoot + "/config.nix");
       };
       modules = [
-        (flakeRoot + "/profiles/base/accounts.nix")
+        (flakeRoot + "/options/accounts.nix")
         inputs.sops-nix.nixosModules.sops
         {
           nixpkgs.hostPlatform = system;

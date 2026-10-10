@@ -69,7 +69,7 @@ $ sudo chmod 600 /var/lib/secrets/<name>
 
 ## 認証方法の検証について
 このflakeではパスワード未設定によるアカウント締め出しを防止するため、flake適用前に各ユーザーの認証方法が機能するかをチェックする仕組みがあります。[^1]  
-[^1]: 実装については`profiles/base/accounts.nix`を参照してください。  
+[^1]: 実装については`options/accounts.nix`を参照してください。  
 
 `nixos-rebuild`を実行した際にエラーが出た場合はログインできないアカウントが存在する可能性があるため、上にあるpasswordPolicyを再確認してください。  
 

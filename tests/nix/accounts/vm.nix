@@ -59,6 +59,7 @@ pkgs.testers.runNixOSTest {
     {
       imports = [
         (flakeRoot + "/profiles/base")
+        (flakeRoot + "/options")
         inputs.sops-nix.nixosModules.sops
       ];
 
