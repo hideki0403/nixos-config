@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ lib, pkgs, pkgs-stable, ... }:
 let
   vimPlugins = import ./plugins.nix { inherit pkgs; };
 in
@@ -8,7 +8,7 @@ in
     viAlias = true;
     vimAlias = true;
     extraPackages = with pkgs; [
-      typescript-language-server
+      pkgs-stable.typescript-language-server
       bash-language-server
       vim-language-server
     ];
