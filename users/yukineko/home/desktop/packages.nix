@@ -7,7 +7,7 @@
     vesktop
     claude-code
     gimp
-    pgadmin4-desktopmode
+    # pgadmin4-desktopmode
 
     # Software (stable)
     # pkgs-stable.example
