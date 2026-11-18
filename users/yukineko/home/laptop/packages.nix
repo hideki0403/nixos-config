@@ -5,5 +5,6 @@
     wireshark
     microsoft-edge
     anki
+    ruby
   ];
 }
