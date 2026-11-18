@@ -7,9 +7,10 @@
     vesktop
     claude-code
     gimp
+    pgadmin4-desktopmode
 
     # Software (stable)
-    pkgs-stable.pgadmin4-desktopmode
+    # pkgs-stable.example
 
     # Software (from flake)
     inputs.spotifast.packages."${pkgs.stdenv.hostPlatform.system}".default
