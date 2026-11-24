@@ -128,8 +128,8 @@
     }
   },
   "npm": {
-    "@actions/expressions@0.3.61": {
-      "integrity": "sha512-Ig+tXELvTjlqxQAWBQnLNn2dPpNraLMdSnT+vDzDPmJtbNUhIAH/Z9kVT8pZ8UtJi9vUGs8hwHE8JFJmbOnLEA=="
+    "@actions/expressions@0.3.62": {
+      "integrity": "sha512-z3cIOc3phey4kAUZeVQaAlphewdR3UGp68wyC9KKypMGS4RYTi+jr/qxTzKGV+CI5HIb7WwJn/8yuORNyOuV2w=="
     },
     "@actions/languageservice@0.3.61": {
       "integrity": "sha512-PoBYhLZ3JG74ZBTAwvrs/V6JdpscCpXv8rprc4yzEQN7Z0FMEso0rewdmMUqwUxYKe7nq6J4RPp+ZVCRL82Zfg==",
@@ -142,8 +142,8 @@
         "yaml"
       ]
     },
-    "@actions/workflow-parser@0.3.61": {
-      "integrity": "sha512-NBjJrbwwrEN3LSN0NAISLpCWQLcPSBjmAIkLXHgjGX8Yql4PiD33ifSAvr9sIMU9uIs8wZiGUnvo9yPIMIfKdg==",
+    "@actions/workflow-parser@0.3.62": {
+      "integrity": "sha512-Y+vzxXYDcx3KqoyA8WDxmwWC9kH2e6SLpdSNG7CxDh5qfPDrOIkuqhRdYPwm/aolmXts0/h5tIVQbBoC8vjPkA==",
       "dependencies": [
         "@actions/expressions",
         "cronstrue",
