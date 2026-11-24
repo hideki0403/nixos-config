@@ -32,6 +32,6 @@
   };
 
   # User
-  users.users.yukineko.extraGroups = [ "networkmanager" ];
+  users.users.yukineko.extraGroups = [ "networkmanager" "dialout" ];
   home-manager.users.yukineko = import ../../users/yukineko/home/laptop;
 }
