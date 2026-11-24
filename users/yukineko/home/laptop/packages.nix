@@ -6,5 +6,6 @@
     microsoft-edge
     anki
     ruby
+    rubyPackages.rails
   ];
 }
